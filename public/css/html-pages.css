@@ -1,0 +1,297 @@
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    height: 520px;
+}
+
+.home__parallax-bg {
+    background: url(../img/html-pages/h1-parallax-img-2.jpg) no-repeat;
+    background-position: center 0px;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate3d(0, 0, 0);
+}
+
+.home__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.home__content p {
+    font-family: 'Satisfy', sans-serif;
+    color: var(--white-color);
+    font-size: 34px;
+}
+
+.home__content h2 {
+    color: var(--white-color);
+    font-size: 65px;
+    font-weight: 600;
+}
+
+/* Pages Info */
+
+.pages-info {
+    padding-top: 128px;
+}
+
+.pages-info__content {
+    margin-top: 24px;
+}
+
+.pages-info__content--title,
+.pages-count__content--title {
+    font-size: 40px;
+    color: #212121;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.pages-info__content--text,
+.pages-count__content--desc {
+    font-size: 17px;
+    color: #5e5e5e;
+}
+
+.pages-info__content--desc {
+    font-size: 14px;
+    color: #5e5e5e;
+    line-height: 24px;
+    margin-bottom: 48px;
+}
+
+.pages-info__content--link {
+    padding: 16px 48px;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.3px;
+}
+
+.pages-info__content--link:hover {
+    background-color: #23a9af;
+}
+
+.pages-info__img {
+    width: 100%;
+}
+
+.pages-info__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pages-video {
+    width: 100%;
+    height: 428px;
+    margin-top: 124px;
+    background: url(../img/html-pages/about-us-parallax-img-1-1536x484.jpg) center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.pages-video:hover .pages-video__play {
+    transform: scale(1.1);
+}
+
+.pages-video__play {
+    width: 69px;
+    height: 69px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 69px;
+    transition: .3s ease;
+    font-size: 24px;
+}
+
+.pages-count {
+    padding-top: 124px;
+}
+
+.pages-count__content {
+    margin-top: 32px;
+}
+
+.pages-count__list--desc {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pages-count__list--bar {
+    height: 22px;
+    width: 100%;
+    background-color: #f0ede8;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.pages-count__bar--item {
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    transition: 3s ease-in;
+}
+
+.pages-count__bar--item.countryside.run {
+    width: 76%;
+}
+
+.pages-count__bar--item.vineyard.run {
+    width: 92%;
+}
+
+.pages-count__bar--item.tasting.run {
+    width: 86%;
+}
+
+.pages-count__bar--item::before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #3abdc1;
+    width: 22px;
+    height: 22px;
+}
+
+.pages-count__bar--item::after {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #3abdc1;
+    width: 22px;
+    height: 22px;
+}
+
+/* Page Product */
+
+.pages-product {
+    margin-top: 124px;
+}
+
+.pages-product__item {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    position: relative;
+}
+
+.pages-product__item:hover .pages-product__item--img {
+    transform: scale(1.05);
+}
+
+.pages-product__item:hover::after {
+    opacity: 1;
+}
+
+.pages-product__item--img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 1s ease;
+}
+
+.pages-product__item::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    opacity: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+    cursor: pointer;
+    transition: .3s;
+}
+
+.pages-product__item--content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+    color: #fff;
+    padding: 12px 20px;
+    z-index: 2;
+}
+
+.pages-product__item--content h2 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.pages-product__item--full {
+    --width: 100%;
+    width: var(--width);
+    height: var(--width);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.pages-product__item--full::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    opacity: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
+    cursor: pointer;
+    transition: .3s;
+}
+
+.pages-product__item--full:hover img {
+    transform: scale(1.03, 1.05);
+}
+
+.pages-product__item--full:hover::after {
+    opacity: 1;
+}
+
+.pages-product__item--full img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 1s ease;
+}
+
+@media (max-width: 1023px) {
+    .pages-info .row {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width: 739px) {
+    .home__content h2 {
+        font-size: 36px;
+    }
+}

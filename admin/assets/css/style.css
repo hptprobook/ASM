@@ -1,0 +1,101 @@
+.nav__sidebar {
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 0 40px;
+  width: 22.5%;
+}
+
+.container-fluid {
+  overflow: unset !important;
+}
+
+.sidebar__title {
+  font-weight: 700;
+  color: #f94600;
+}
+
+.nav-link {
+  border-radius: 4px;
+}
+
+.nav-link:hover,
+.nav-link:active {
+  background-color: #0081f9;
+}
+
+.header {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: .5px solid #888;
+}
+
+.header__handle--setting {
+  text-decoration: none;
+  color: #888;
+}
+
+.header__handle--setting:hover {
+  color: #333;
+}
+
+.header__handle--logout {
+  text-decoration: none;
+  color: #888;
+}
+
+.header__handle--logout:hover {
+  color: #333;
+}
+
+.footer {
+  border-top: 1px solid #888;
+}
+
+.footer p {
+  color: #888;
+  font-weight: 500;
+}
+
+/* Login CSS */
+
+.container-fluid {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.left {
+  height: 100vh;
+}
+
+.left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.right h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #f94600;
+}
+
+.right h6 {
+  font-weight: 400;
+  padding-left: 24px;
+}
+
+.right h5 {
+  margin-top: 12px;
+  color: #666;
+}
+
+.form-message {
+  font-size: 14px;
+  color: red;
+}
