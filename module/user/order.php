@@ -6,9 +6,29 @@ $template->getHeader();
 
 $user_id = $user->is_login() ? $user->get_user_id($_SESSION['username']) : null;
 $check_out_list = isset($user_id) ? $database->get_list('SELECT * FROM check_out WHERE user_id = "' . $user_id . '"') : null;
+$check_out_user = isset($user_id) ? $database->get_row('SELECT * FROM check_out WHERE user_id = "' . $user_id . '"') : null;
+$user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_comp.*, products.image_url, products.name FROM user_cart_comp INNER JOIN products ON user_cart_comp.product_id=products.product_id WHERE user_id = "' . $user_id . '"') : null;
 
 ?>
 
+<style>
+  .send-to p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+  }
+  .send-to h6 {
+    font-size: 15px;
+  }
+  table tr td {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+  }
+  table tr td a:hover {
+    color:#3fd0d4 !important;
+  }
+</style>
 
 <section class="home">
   <div class="home__parallax-bg"></div>
@@ -24,26 +44,57 @@ $check_out_list = isset($user_id) ? $database->get_list('SELECT * FROM check_out
   }
   ?>
 
-  <h2>Order Tracking</h2>
+
+<h2>Order Tracking</h2>
+
+<div class="send-to">
+  <h6>Name: <? echo $check_out_user['ship_name']; ?></h6>
+  <p class="mb-0">Send to: <? echo $check_out_user['ship_address']; ?></p>
+  <p>Phone: <? echo $check_out_user['ship_phone']; ?></p>
+</div>
   <table style="width: 100%;">
       <tr style="height: 36px;border-bottom:1px solid #dedcdc;">
-        <th style="width: 15%;">Product</th>
+        <th style="width: 15%;" class="text-center">Product</th>
         <th style="width: 20%;"></th>
         <th style="width: 10%;"></th>
-        <th style="width: 15%;">Date</th>
-        <th style="width: 15%;">SubTotal</th>
-        <th style="width: 15%;">Status</th>
-        <th style="width: 10%;">Cancel</th>
+        <th style="width: 15%;" class="text-center">Date</th>
+        <th style="width: 15%;" class="text-center">SubTotal</th>
+        <th style="width: 15%;" class="text-center">Status</th>
+        <th style="width: 10%;" class="text-center">Action</th>
       </tr>
 
-      <tr>
-        <td>hihi</td>
-        <td>hihi</td>
-        <td>hihi</td>
-        <td>hihi</td>
-        <td>hihi</td>
-        <td>hihi</td>
+      <?
+
+      foreach ($user_cart_complete as $item) { ?>
+
+      <tr style="height: 136px;border-bottom:1px solid #dedcdc;">
+        <td class="text-center"><? echo $item['name'] ?></td>
+        <td><img src="<? echo $item['image_url'] ?>" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></td>
+        <td>x <? echo $item['quantity'] ?></td>
+        <td class="text-center"><? echo $item['ship_date'] ?></td>
+        <td class="text-center">$<? echo $item['subtotal'] ?> </td>
+        <td class="text-center">
+          <? if ($item['status'] == 0) {
+            echo '<div class="text-warning">Confirmed</div>';
+          } elseif ($item['status'] == 1) {
+            echo '<div class="text-info">Delivery</div>';
+          } elseif ($item['status'] == 2) {
+            echo '<div class="text-success">Received</div>';
+          } elseif ($item['status'] == 3) {
+            echo '<div class="text-danger">Cancelled</div>';
+          } else echo ''; ?>
+        </td>
+        <td class="text-center">
+          <a
+            <? if ($item['status'] == 3) echo ''; else {
+              echo 'href="?mod=user&act=cancel_order"';
+            }  ?>
+            style="color: #555;" class="text-decoration-none"> <? if ($item['status'] == 3) echo ''; else echo 'Cancel'; ?></a>
+        </td>
       </tr>
+
+      <? } ?>
+
 
 
       <style>

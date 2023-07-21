@@ -24,27 +24,21 @@ if (isset($_POST['checkout-btn'])) {
   if (empty($phone)) $error['phone'] = 'This field not be empty';
 
   if (empty($error)) {
-    $data = array(
-      'user_id' => $user_id,
-      'checkout_date' => $current_date,
-      'order_id' => $orders['id'],
-      'ship_name' => $full_name,
-      'ship_address' => $address,
-      'ship_phone' => $phone,
-      'ship_email' => $email,
-      'note' => $note,
-    );
-
-    $database->insert('check_out', $data);
 
     foreach ($user_carts as $user_cart) {
-      $info = array(
+      $data = array(
         'user_id' => $user_cart['user_id'],
         'product_id' => $user_cart['product_id'],
         'quantity' => $user_cart['quantity'],
-        'subtotal' => $user_cart['subtotal']
+        'subtotal' => $user_cart['subtotal'],
+        'ship_name' => $full_name,
+        'ship_address' => $address,
+        'ship_phone' => $phone,
+        'ship_email' => $email,
+        'ship_date' => $current_date,
+        'note' => $note,
       );
-      $database->insert('user_cart_comp', $info);
+      $database->insert('user_cart_comp', $data);
       $database->remove('user_cart', 'id = "' . $user_cart['id'] . '"');
     }
 
