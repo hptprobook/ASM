@@ -42,7 +42,15 @@ $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "'
           <p>( 240 customers preview)</p>
         </div>
         <p class="shop_container__info--short-desc pt-4"><? echo $product_info['short_desc'] ?></p>
-        <form action="?mod=cart&act=add" method="post" class="shop-container__form">
+        <form
+          action="
+            <?
+            if ($user->is_login()) echo '?mod=cart&act=add';
+            else echo '?mod=non-cart&act=add';
+            ?>
+          "
+          method="post" class="shop-container__form"
+        >
           <input type="number" name="quantity" value="1" min="1" class="shop-container__quantity">
           <input type="hidden" name="product_id" value="<? echo $id ?>">
           <button type="submit" name="add-to-cart">ADD TO CART</button>

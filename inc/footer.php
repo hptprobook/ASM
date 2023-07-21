@@ -109,7 +109,7 @@
   <script src="./node_modules/swiper/swiper-bundle.js"></script>
   <script src="./public/js/script.js"></script>
   <script src="./public/js/validate.js" type="module"></script>
-  <!-- <script src="./public/js/product.js"></script> -->
+  <script src="./public/js/product.js"></script>
 
 
   <script>

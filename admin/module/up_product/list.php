@@ -19,6 +19,7 @@ $products_list = $admin->get_list("SELECT * FROM products");
           <th>Giá tiền</th>
           <th>Image URL</th>
           <th>Mã sản phẩm</th>
+          <th>Danh mục</th>
           <th class="text-center">Thao tác</th>
         </tr>
       </thead>
@@ -32,6 +33,9 @@ $products_list = $admin->get_list("SELECT * FROM products");
           <td><? echo $product['price'] ?></td>
           <td><? echo $product['image_url'] ?></td>
           <td><? echo $product['product_code'] ?></td>
+          <td>
+            <a href=""><? echo $product['cat_id'] ?></a>
+          </td>
           <td class="text-center">
             <a href="?mod=up_product&act=update&id=<? echo $product['product_id'] ?>" title="Sửa"><i class="bi bi-pencil-square"></i></a>
             <a href="?mod=up_product&act=delete&id=<? echo $product['product_id'] ?>" title="Xoá"><i class="bi bi-trash3-fill"></i></a>

@@ -71,7 +71,11 @@
   outline: none;
   font-size: 14px;
   color: #505050;
-  padding: 0 16px;
+  padding: 0 24px;
+}
+
+.sort-form {
+  height: 100%;
 }
 
 .shop-container__heading--select::selection {
@@ -213,7 +217,12 @@
   color: #505050;
 }
 
-.shop-container__search button {
+.sort-form {
+  display: flex;
+}
+
+.shop-container__search button,
+.sort-form button {
   height: 100%;
   aspect-ratio: 1/1;
   text-align: center;
@@ -303,6 +312,9 @@
   text-decoration: none;
   position: relative;
   padding: 0 4px;
+  border: none;
+  outline: none;
+  background-color: #fff;
 }
 
 .shop-container__filter--submit:hover::after {

@@ -2,6 +2,8 @@
 
 <?
 
+$cat_list = $admin->get_list('SELECT * FROM category');
+
 if (isset($_POST['add_product-btn'])) {
   $product_name = $_POST['name'];
   $product_rate = (string)$_POST['rate'];
@@ -9,6 +11,7 @@ if (isset($_POST['add_product-btn'])) {
   $product_code = $_POST['product_code'];
   $product_short_desc = $_POST['short_desc'];
   $product_detail = $_POST['detail'];
+  $cat_id = $_POST['cat_id'];
   $image_url = $_FILES['image_url'];
   $error = array();
   $empty = 'Trường này không được để trống';
@@ -42,7 +45,8 @@ if (isset($_POST['add_product-btn'])) {
     'image_url' => $upload_file,
     'product_code' => $product_code,
     'short_desc' => $product_short_desc,
-    'detail' => $product_detail
+    'detail' => $product_detail,
+    'cat_id' => $cat_id,
   );
 
   if (empty($error)) {
@@ -90,6 +94,16 @@ if (isset($_POST['add_product-btn'])) {
       <label for="product_code" class="form-label">Mã sản phẩm</label>
       <input type="text" name="product_code" class="form-control" id="product_code" value="<? (isset($product_code) ? setValue($product_code) : '') ?>">
       <span class="form-message"><? echo formError('product_code') ?></span>
+    </div>
+
+    <div class="form-group mt-2">
+      <label for="mySelect" class="form-label">Chọn danh mục sản phẩm:</label>
+      <select class="form-select" id="mySelect" name="cat_id">
+        <? foreach ($cat_list as $cat_item) { ?>
+
+        <option value="<? echo $cat_item['cat_id'] ?>">Product <? echo $cat_item['name'] ?></option>
+        <? } ?>
+      </select>
     </div>
 
     <div class="form-group mt-2">

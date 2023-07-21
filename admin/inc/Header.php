@@ -54,6 +54,10 @@
                   Quản lí sản phẩm
                 </a>
                 <div class="collapse ps-4" id="product">
+                  <a href="?mod=category&act=show" class="nav-link text-white">
+                    <i class="bi bi-card-checklist"></i>
+                    Danh mục
+                  </a>
                   <a href="?mod=up_product&act=list" class="nav-link text-white">
                     <i class="bi bi-card-checklist"></i>
                     Danh sách sản phẩm
