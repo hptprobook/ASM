@@ -73,5 +73,17 @@ class Cart {
     return $this->database->get_list($sql);
   }
 
+  function get_user_cart($user_id) {
+    $sql = 'SELECT * FROM user_cart WHERE user_id = "'.$user_id.'"';
+
+    return $this->database->get_list($sql);
+  }
+
+  function get_user_cart_full_info($user_id) {
+    $sql = 'SELECT user_cart.*,products.name, products.price, products.image_url FROM user_cart INNER JOIN products ON user_cart.product_id=products.product_id WHERE user_id = "'.$user_id.'"';
+
+    return $this->database->get_list($sql);
+  }
+
 
 }

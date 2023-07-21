@@ -45,10 +45,8 @@ if (isset($_POST['checkout-btn'])) {
     $cart->get_order($username);
 
     $is_checked_out = true;
-    header('Refresh: 2; URL= ?mod=user&act=order&is_checked_out=true');
+    header('Location: ?mod=user&act=order&is_checked_out=true');
   } else $is_checked_out = false;
-
-
 
 }
 ?>
@@ -87,22 +85,22 @@ if (isset($_POST['checkout-btn'])) {
 
           <div class="form-group">
             <label for="checkout-fullname">Full name ...</label>
-            <input type="text" name="checkout-fullname" id="checkout-fullname" class="checkout-form__input" value="<? echo $user['name'] ?>">
+            <input readonly type="text" name="checkout-fullname" id="checkout-fullname" class="checkout-form__input" value="<? echo $user['name'] ?>">
             <span class="form-message"><? echo formError('fullname') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-email">Email ...</label>
-            <input type="text" name="checkout-email" id="checkout-email" class="checkout-form__input" value="<? echo $user['email'] ?>">
+            <input readonly type="text" name="checkout-email" id="checkout-email" class="checkout-form__input" value="<? echo $user['email'] ?>">
             <span class="form-message"><? echo formError('email') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-address">Address ...</label>
-            <input type="text" name="checkout-address" id="checkout-address" class="checkout-form__input" value="<? echo $user['address'] ?>">
+            <input readonly type="text" name="checkout-address" id="checkout-address" class="checkout-form__input" value="<? echo $user['address'] ?>">
             <span class="form-message"><? echo formError('address') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-phone">Phone ...</label>
-            <input type="text" name="checkout-phone" id="checkout-phone" class="checkout-form__input" value="<? echo $user['phone'] ?>">
+            <input readonly type="text" name="checkout-phone" id="checkout-phone" class="checkout-form__input" value="<? echo $user['phone'] ?>">
             <span class="form-message"><? echo formError('phone') ?></span>
           </div>
           <div class="form-group">

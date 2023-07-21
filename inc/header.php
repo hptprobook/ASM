@@ -879,8 +879,43 @@
         <div class="header__more--icon header__more--cart">
           <a class="text-decoration-none text-black" href="?mod=cart&act=show"><i class="bi bi-basket2"></i></a>
 
+          <?
+          $database = $GLOBALS['database'];
+          $user = $GLOBALS['user'];
+          $cart = $GLOBALS['cart'];
+
+          if ($user->is_login()) {
+            $user_id = $user->get_user_id($_SESSION['username']);
+            $user_cart_list = $cart->get_user_cart_full_info($user_id);
+          }
+
+          ?>
+
           <div class="header__cart--more">
-            <span class="text-black-50 px-5">No product in the cart.</span>
+            <? if (empty($user_cart_list)) { ?>
+              <span class="text-black-50 px-5">No product in the cart.</span>
+            <?} else { ?>
+
+
+              <? foreach ($user_cart_list as $item) { ?>
+
+                <div class="header__cart--item d-flex align-items-center mt-3">
+                  <div class="cart__item--img">
+                    <img src="<? echo $item['image_url'] ?>" alt="">
+                  </div>
+                  <div class="cart__item--info">
+                    <h4><? echo $item['name'] ?></h4>
+                    <span class="pb-1">Quantity: <? echo $item['quantity'] ?></span>
+                    <span>Price: $<? echo $item['price'] ?></span>
+                  </div>
+                  <div class="cart_remove"><a href="#">x</a></div>
+                </div>
+
+                <? } ?>
+                <? } ?>
+              <hr>
+
+              <a href="?mod=cart&act=show" class="btn btn-primary">VIEW CART & CHECKOUT</a>
           </div>
         </div>
         <div class="header__more--icon header__more--search">

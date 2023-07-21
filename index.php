@@ -16,6 +16,8 @@ $cart = new Cart($database);
 $user = new User($database);
 
 $GLOBALS['cart'] = $cart;
+$GLOBALS['database'] = $database;
+$GLOBALS['user'] = $user;
 ?>
 
 <?

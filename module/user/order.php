@@ -6,7 +6,7 @@ $template->getHeader();
 
 $user_id = $user->is_login() ? $user->get_user_id($_SESSION['username']) : null;
 $check_out_list = isset($user_id) ? $database->get_list('SELECT * FROM check_out WHERE user_id = "' . $user_id . '"') : null;
-$check_out_user = isset($user_id) ? $database->get_row('SELECT * FROM check_out WHERE user_id = "' . $user_id . '"') : null;
+$check_out_user = isset($user_id) ? $database->get_row('SELECT * FROM user_cart_comp WHERE user_id = "' . $user_id . '"') : null;
 $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_comp.*, products.image_url, products.name FROM user_cart_comp INNER JOIN products ON user_cart_comp.product_id=products.product_id WHERE user_id = "' . $user_id . '"') : null;
 
 ?>
@@ -87,7 +87,7 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
         <td class="text-center">
           <a
             <? if ($item['status'] == 3) echo ''; else {
-              echo 'href="?mod=user&act=cancel_order"';
+              echo 'href="?mod=user&act=cancel_order&id=' . $item['id'] . '"';
             }  ?>
             style="color: #555;" class="text-decoration-none"> <? if ($item['status'] == 3) echo ''; else echo 'Cancel'; ?></a>
         </td>

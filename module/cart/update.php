@@ -1,5 +1,5 @@
 <?
- header('Refresh: 1; URL= ' . $_SERVER['HTTP_REFERER'] . '');
+  header('Refresh: 1; URL= ' . $_SERVER['HTTP_REFERER'] . '');
 ?>
 
 <? $template->getHeader();?>
