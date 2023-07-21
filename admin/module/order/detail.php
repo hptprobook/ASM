@@ -1,0 +1,6 @@
+<? getHeader(); ?>
+
+
+
+
+<? getFooter(); ?>

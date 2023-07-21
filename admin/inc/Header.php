@@ -66,6 +66,13 @@
               </li>
 
               <li class="nav-item">
+                <a class="nav-link text-white" href="?mod=order&act=main">
+                  <i class="bi bi-bag-dash-fill"></i>
+                  Đơn hàng
+                </a>
+              </li>
+
+              <li class="nav-item">
                 <a class="nav-link text-white" href="#">
                   <i class="bi bi-gear-fill"></i>
                   Thiết lập thông tin
