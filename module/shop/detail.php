@@ -34,7 +34,7 @@ if (isset($_POST['add-to-cart'])) {
 
   <?
   if (isset($isLogin) && $isLogin == 1) {
-    echo '<div class="alert alert-primary">Please <span class="login--notify">log in here</span> before using the shopping cart!</div>';
+    echo '<div class="alert alert-error">Please <span class="login--notify">log in here</span> before using the shopping cart!</div>';
   }
   ?>
   <div class="row">

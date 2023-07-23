@@ -884,7 +884,7 @@ $cart = $GLOBALS['cart'];
       <div class="header__more d-flex text-black">
         <div class="header__more--icon header__more--cart">
           <a class="text-decoration-none text-black"
-            href="<? if ($user_obj->is_login()) echo '?mod=cart&act=show'; else echo '?mod=user' ?>"
+            href="<? if ($user_obj->is_login()) echo '?mod=cart&act=show'; else echo '?mod=user&act=not-login' ?>"
           ><i class="bi bi-basket2"></i></a>
 
           <?

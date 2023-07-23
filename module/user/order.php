@@ -89,11 +89,12 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
           } else echo ''; ?>
         </td>
         <td class="text-center">
-          <a
-            <? if ($item['status'] == 3 || $item['status'] == 4) echo ''; else {
-              echo 'href="?mod=user&act=cancel_order&id=' . $item['id'] . '"';
-            }  ?>
-            style="color: #555;" class="text-decoration-none"> <? if ($item['status'] == 3) echo ''; else echo 'Cancel'; ?></a>
+
+          <? if ($item['status'] == 4 || $item['status'] == 3) { ?>
+            <a style="color: #222" href="?mod=user&act=reason&id=<? echo $item['id'] ?> ">Reason?</a>
+          <? } else { ?>
+              <a style="color: #222" href="?mod=user&act=cancel_order&id=<? echo $item['id'] ?>">Cancel</a>
+          <? } ?>
         </td>
       </tr>
 

@@ -100,6 +100,7 @@ if (formTop) {
   const registerInLogin = $(".register-in-login");
   const loginInRegister = $(".login-in-register");
   const loginNotify = $("span.login--notify");
+  const notLogin = $(".not-login__sign-in");
 
   userBtn.onclick = () => {
     formTop.style.visibility = "visible";
@@ -129,11 +130,21 @@ if (formTop) {
     formTopRegister.style.display = "none";
   };
 
-  loginNotify.onclick = () => {
-    formTop.style.visibility = "visible";
-    formTopOverlay.style.opacity = 1;
-    formTopLogin.style.opacity = 1;
-  };
+  if (loginNotify) {
+    loginNotify.onclick = () => {
+      formTop.style.visibility = "visible";
+      formTopOverlay.style.opacity = 1;
+      formTopLogin.style.opacity = 1;
+    };
+  }
+
+  if (notLogin) {
+    notLogin.onclick = () => {
+      formTop.style.visibility = "visible";
+      formTopOverlay.style.opacity = 1;
+      formTopLogin.style.opacity = 1;
+    };
+  }
 } else {
   formTop = null;
 }
