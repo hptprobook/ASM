@@ -37,6 +37,7 @@ if (isset($_POST['checkout-btn'])) {
         'ship_email' => $email,
         'ship_date' => $current_date,
         'note' => $note,
+        'status' => -1
       );
       $database->insert('user_cart_comp', $data);
       $database->remove('user_cart', 'id = "' . $user_cart['id'] . '"');
@@ -45,7 +46,8 @@ if (isset($_POST['checkout-btn'])) {
     $cart->get_order($username);
 
     $is_checked_out = true;
-    header('Location: ?mod=user&act=order&is_checked_out=true');
+    header('Location: ?mod=cart&act=send-mail&ship_name="'.$full_name.'"&ship_address="'.$address.'"&ship_email="'.$email.'"&ship_date="'.$current_date.'"');
+    // header('Location: ?mod=user&act=order&is_checked_out=true');
   } else $is_checked_out = false;
 
 }

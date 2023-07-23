@@ -37,21 +37,35 @@ $order_list = $admin->get_list('SELECT * FROM user_cart_comp');
             <td><? echo $item['ship_date'] ?></td>
             <td><? echo $item['note'] ?></td>
             <td>
-              <? if ($item['status'] == 0) {
-                echo '<div class="text-warning">Đã xác nhận</div>';
+              <?if ($item['status'] == -1) {
+                echo '<div class="text-warning">Chưa xác nhận</div>';
+              } elseif ($item['status'] == 0) {
+                echo '<div class="text-success">Đã xác nhận</div>';
               } elseif ($item['status'] == 1) {
                 echo '<div class="text-info">Đang giao</div>';
               } elseif ($item['status'] == 2) {
                 echo '<div class="text-success">Đã nhận hàng</div>';
               } elseif ($item['status'] == 3) {
                 echo '<div class="text-danger">KH đã huỷ</div>';
+              } elseif ($item['status'] == 4) {
+                echo '<div class="text-important">Admin đã huỷ</div>';
               } else echo ''; ?>
             </td>
             <td>
-              <a href="?mod=order&act=confirm" class="d-block" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
-              <a href="?mod=order&act=ship_confirm" class="d-block" title="Xác nhận giao hàng"><i class="bi bi-rocket"></i></a>
+              <? if ($item['status'] != 3) { ?>
+                <?
+                if ($item['status'] == -1) { ?>
+                  <a href="?mod=order&act=confirm&id=<? echo $item['id'] ?>" class="d-block" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
+                <? } ?>
+                <?
+                if ($item['status'] == 0) { ?>
+                  <a href="?mod=order&act=ship_confirm&id=<? echo $item['id'] ?>" class="d-block" title="Xác nhận giao hàng"><i class="bi bi-rocket"></i></a>
+                <? } ?>
 
-              <a href="?mod=order&act=cancel" class="d-block" title="Huỷ đơn hàng này"><i class="bi bi-exclamation-lg"></i></a>
+                <a href="?mod=order&act=cancel&id=<? echo $item['id'] ?>" class="d-block" title="Huỷ đơn hàng này"><i class="bi bi-exclamation-lg"></i></a>
+
+              <? } ?>
+              <a href="?mod=order&act=remove&id=<? echo $item['id'] ?>" class="d-block" title="Xoá đơn hàng này"><i class="bi bi-trash3"></i></i></a>
             </td>
           </tr>
 

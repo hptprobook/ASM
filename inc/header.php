@@ -1,4 +1,9 @@
+<?
+$database = $GLOBALS['database'];
+$user_obj = $GLOBALS['user_obj'];
+$cart = $GLOBALS['cart'];
 
+?>
 
 <!DOCTYPE html>
 
@@ -286,7 +291,8 @@
 
     <!-- ========== Header =========== -->
 
-    <header class="header w-100 d-flex">
+  <div style="height: 82px !important;">
+  <header class="header w-100 d-flex">
 
       <div class="header__menu">
         <i class="bi bi-list header__menu--btn"></i>
@@ -877,15 +883,15 @@
 
       <div class="header__more d-flex text-black">
         <div class="header__more--icon header__more--cart">
-          <a class="text-decoration-none text-black" href="?mod=cart&act=show"><i class="bi bi-basket2"></i></a>
+          <a class="text-decoration-none text-black"
+            href="<? if ($user_obj->is_login()) echo '?mod=cart&act=show'; else echo '?mod=user' ?>"
+          ><i class="bi bi-basket2"></i></a>
 
           <?
-          $database = $GLOBALS['database'];
-          $user = $GLOBALS['user'];
-          $cart = $GLOBALS['cart'];
 
-          if ($user->is_login()) {
-            $user_id = $user->get_user_id($_SESSION['username']);
+
+          if ($user_obj->is_login()) {
+            $user_id = $user_obj->get_user_id($_SESSION['username']);
             $user_cart_list = $cart->get_user_cart_full_info($user_id);
           }
 
@@ -940,3 +946,5 @@
 
       </div>
     </header>
+
+  </div>

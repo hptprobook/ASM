@@ -99,6 +99,7 @@ if (formTop) {
   const formTopClose = $(".close-form-btn");
   const registerInLogin = $(".register-in-login");
   const loginInRegister = $(".login-in-register");
+  const loginNotify = $("span.login--notify");
 
   userBtn.onclick = () => {
     formTop.style.visibility = "visible";
@@ -126,6 +127,12 @@ if (formTop) {
   loginInRegister.onclick = () => {
     formTopLogin.style.display = "block";
     formTopRegister.style.display = "none";
+  };
+
+  loginNotify.onclick = () => {
+    formTop.style.visibility = "visible";
+    formTopOverlay.style.opacity = 1;
+    formTopLogin.style.opacity = 1;
   };
 } else {
   formTop = null;

@@ -74,7 +74,9 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
         <td class="text-center"><? echo $item['ship_date'] ?></td>
         <td class="text-center">$<? echo $item['subtotal'] ?> </td>
         <td class="text-center">
-          <? if ($item['status'] == 0) {
+          <?if ($item['status'] == -1) {
+            echo '<div class="text-50-black">Unconfimred</div>';
+          }elseif ($item['status'] == 0) {
             echo '<div class="text-warning">Confirmed</div>';
           } elseif ($item['status'] == 1) {
             echo '<div class="text-info">Delivery</div>';
@@ -82,11 +84,13 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
             echo '<div class="text-success">Received</div>';
           } elseif ($item['status'] == 3) {
             echo '<div class="text-danger">Cancelled</div>';
+          } elseif ($item['status'] == 4) {
+            echo '<div class="text-secondary">Cancelled by admin</div>';
           } else echo ''; ?>
         </td>
         <td class="text-center">
           <a
-            <? if ($item['status'] == 3) echo ''; else {
+            <? if ($item['status'] == 3 || $item['status'] == 4) echo ''; else {
               echo 'href="?mod=user&act=cancel_order&id=' . $item['id'] . '"';
             }  ?>
             style="color: #555;" class="text-decoration-none"> <? if ($item['status'] == 3) echo ''; else echo 'Cancel'; ?></a>

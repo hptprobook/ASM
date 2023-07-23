@@ -8,16 +8,13 @@ require 'libs/Validate.php';
 require 'libs/Cart.php';
 
 $database = new DB_Driver();
-
 $template = new Template();
-
 $cart = new Cart($database);
-
 $user = new User($database);
 
 $GLOBALS['cart'] = $cart;
 $GLOBALS['database'] = $database;
-$GLOBALS['user'] = $user;
+$GLOBALS['user_obj'] = $user;
 ?>
 
 <?
