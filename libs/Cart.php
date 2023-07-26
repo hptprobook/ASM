@@ -29,9 +29,9 @@ class Cart {
         'quantity' => $product_quantity + $product_qty_indb,
         'subtotal' => ($product['price'] * ($product_quantity + $product_qty_indb))
       );
-      $this->database->update('user_cart', $user_cart, 'id = "' . $product_id_in_db['id'] . '"');
+      return $this->database->update('user_cart', $user_cart, 'id = "' . $product_id_in_db['id'] . '"');
     } else {
-      $this->database->insert('user_cart', $user_cart);
+      return $this->database->insert('user_cart', $user_cart);
     }
   }
 
@@ -62,6 +62,8 @@ class Cart {
     } else {
       $this->database->insert('orders', $data_order);
     }
+
+    return $total_amount;
   }
 
   function remove_all() {

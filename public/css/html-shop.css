@@ -474,14 +474,14 @@
 }
 
 .shop-container__form button {
-    height: 62px;
-    border: none;
-    outline: none;
-    color: #fff;
-    background-color: var(--primary-color);
-    padding: 0 40px;
-    margin-left: 12px;
-    font-weight: 600;
+  height: 62px;
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: var(--primary-color);
+  padding: 0 40px;
+  margin-left: 12px;
+  font-weight: 600;
 }
 
 .cart-table tr {

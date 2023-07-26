@@ -2,11 +2,20 @@
 
 <?
 
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
-$user = $database->get_row('SELECT * FROM users WHERE username = "' . $username . '"');
-$user_id = $user['user_id'];
-$user_carts = $database->get_list('SELECT user_cart.*, products.name FROM user_cart INNER JOIN products ON user_cart.product_id=products.product_id WHERE user_id = "' . $user_id . '"');
-$orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $user['user_id'] . '"');
+$user_id = $user->get_user_id($_SESSION['username']);
+$user_info = $database->get_row('SELECT * FROM users WHERE user_id = "' . $user_id . '"');
+$user_carts = array();
+if (isset($_SESSION['selected_ids'])) {
+  $selectedIds = $_SESSION['selected_ids'];
+} else {
+  $selectedIds = array();
+}
+foreach ($selectedIds as $key => $value) {
+  $user_cart = $database->get_row('SELECT user_cart.*, products.price, products.name FROM user_cart INNER JOIN products ON user_cart.product_id=products.product_id WHERE id = "' . $value . '"');
+  array_push($user_carts, $user_cart);
+}
+
+$total_checkout = 0;
 
 if (isset($_POST['checkout-btn'])) {
   $error = array();
@@ -25,12 +34,12 @@ if (isset($_POST['checkout-btn'])) {
 
   if (empty($error)) {
 
-    foreach ($user_carts as $user_cart) {
+    foreach ($user_carts as $item) {
       $data = array(
-        'user_id' => $user_cart['user_id'],
-        'product_id' => $user_cart['product_id'],
-        'quantity' => $user_cart['quantity'],
-        'subtotal' => $user_cart['subtotal'],
+        'user_id' => $item['user_id'],
+        'product_id' => $item['product_id'],
+        'quantity' => $item['quantity'],
+        'subtotal' => $item['subtotal'],
         'ship_name' => $full_name,
         'ship_address' => $address,
         'ship_phone' => $phone,
@@ -40,15 +49,18 @@ if (isset($_POST['checkout-btn'])) {
         'status' => -1
       );
       $database->insert('user_cart_comp', $data);
-      $database->remove('user_cart', 'id = "' . $user_cart['id'] . '"');
+      $is_checked_out = true;
+      header('Location: ?mod=cart&act=send-mail&ship_name="'.$full_name.'"&ship_address="'.$address.'"&ship_email="'.$email.'"&ship_date="'.$current_date.'"');
+      $database->remove('user_cart', 'id = "' . $item['id'] . '"');
+      $cart->get_order($_SESSION['username']);
+
     }
 
-    $cart->get_order($username);
 
-    $is_checked_out = true;
-    header('Location: ?mod=cart&act=send-mail&ship_name="'.$full_name.'"&ship_address="'.$address.'"&ship_email="'.$email.'"&ship_date="'.$current_date.'"');
+
+
     // header('Location: ?mod=user&act=order&is_checked_out=true');
-  } else $is_checked_out = false;
+  } else echo 'haha';
 
 }
 ?>
@@ -65,19 +77,13 @@ if (isset($_POST['checkout-btn'])) {
 
   <?
 
-  if (empty($user['address']) || empty($user['phone'])) {
-    echo '<div class="alert alert-error">Please complete all <a href="?mod=user&act=profile" class="text-white primary-link">your personal information</a>!</div>';
-  }
-
-  if (isset($is_checked_out) && $is_checked_out === false) {
-    echo '<div class="alert alert-primary">Order Success</div>';
-  } elseif (isset($is_checked_out) && $is_checked_out === true) {
-    echo '<div class="alert alert-error">Order Failure</div>';
+  if (empty($user_info['name']) || empty($user_info['address']) || empty($user_info['phone'])) {
+    echo '<div class="alert alert-error checkout-notify">Please complete all <a href="?mod=user&act=profile" class="text-white primary-link">your personal information</a>!</div>';
   }
 
   ?>
 
-  <form action="" method="post">
+  <form action="" method="post" id="checkout-final-form">
     <div class="row">
       <!-- <form action=""> -->
       <div class="col l-6">
@@ -87,22 +93,22 @@ if (isset($_POST['checkout-btn'])) {
 
           <div class="form-group">
             <label for="checkout-fullname">Full name ...</label>
-            <input readonly type="text" name="checkout-fullname" id="checkout-fullname" class="checkout-form__input" value="<? echo $user['name'] ?>">
+            <input readonly type="text" name="checkout-fullname" id="checkout-fullname" class="checkout-form__input" value="<? echo $user_info['name'] ?>">
             <span class="form-message"><? echo formError('fullname') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-email">Email ...</label>
-            <input readonly type="text" name="checkout-email" id="checkout-email" class="checkout-form__input" value="<? echo $user['email'] ?>">
+            <input readonly type="text" name="checkout-email" id="checkout-email" class="checkout-form__input" value="<? echo $user_info['email'] ?>">
             <span class="form-message"><? echo formError('email') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-address">Address ...</label>
-            <input readonly type="text" name="checkout-address" id="checkout-address" class="checkout-form__input" value="<? echo $user['address'] ?>">
+            <input readonly type="text" name="checkout-address" id="checkout-address" class="checkout-form__input" value="<? echo $user_info['address'] ?>">
             <span class="form-message"><? echo formError('address') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-phone">Phone ...</label>
-            <input readonly type="text" name="checkout-phone" id="checkout-phone" class="checkout-form__input" value="<? echo $user['phone'] ?>">
+            <input readonly type="text" name="checkout-phone" id="checkout-phone" class="checkout-form__input" value="<? echo $user_info['phone'] ?>">
             <span class="form-message"><? echo formError('phone') ?></span>
           </div>
           <div class="form-group">
@@ -132,14 +138,24 @@ if (isset($_POST['checkout-btn'])) {
                 <td>x <? echo $cart_item['quantity'] ?></td>
                 <td style="text-align: end;">$<? echo $cart_item['subtotal'] ?></td>
               </tr>
+              <?
 
+
+              $total_checkout += $cart_item['subtotal'];
+
+              ?>
             <? } ?>
 
           </table>
 
           <div class="checkout-total_amount float-end">
-            <p>Total Amount: $<? echo $orders['total_amount'] ?></p>
-            <button type="submit" name="checkout-btn" class="checkout-btn float-end">Check Out</button>
+            <p>Total Amount: $<? echo $total_checkout ?></p>
+            <button
+              type="submit"
+              <?
+              if (empty($user_info['name']) || empty($user_info['address']) || empty($user_info['phone'])) echo 'disabled';
+              ?>
+              name="checkout-btn" class="checkout-btn float-end" id="checkout-final-btn">CHECK OUT</button>
           </div>
 
           <br>

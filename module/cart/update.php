@@ -1,19 +1,18 @@
 <?
-  header('Refresh: 1; URL= ' . $_SERVER['HTTP_REFERER'] . '');
-?>
+session_start();
+require '../../libs/DBDriver.php';
+require '../../libs/Cart.php';
+require '../../libs/User.php';
 
-<? $template->getHeader();?>
-<?
+$database = new DB_Driver();
+$cart = new Cart($database);
+$user = new User($database);
 
 
-$username = $_POST['username'];
-$user = $database->get_row('SELECT * FROM users WHERE username = "' . $username . '"');
-$user_id = $user['user_id'];
-$qty = $_POST['qty'];
+$user_id = $user->get_user_id($_SESSION['username']);
+$qty = $_GET['qty'];
 
-$user_cart = $database->get_list(
-  'SELECT user_cart.*, products.price FROM user_cart INNER JOIN products ON user_cart.product_id=products.product_id WHERE user_id = "' . $user_id . '"'
-);
+$user_cart = $cart->get_user_cart_full_info($user_id);
 
 foreach ($qty as $key => $value) {
   $user_cart[$key]['quantity'] = $value;
@@ -24,8 +23,9 @@ foreach ($qty as $key => $value) {
 
   $database->update('user_cart', $data, 'id = "' . $user_cart[$key]['id'] . '"');
 }
-$cart->get_order($username);
-echo '<div class="alert alert-primary text-center">Update Successfully.<br> Redirecting...</div>'
-?>
-<? $template->getFooter();?>
+$user_cart = $cart->get_user_cart_full_info($user_id);
+$total_amount = $cart->get_order($_SESSION['username']);
+array_push($user_cart, $total_amount);
+
+echo json_encode($user_cart);
 

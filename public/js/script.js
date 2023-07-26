@@ -1,106 +1,42 @@
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+// const $ = document.querySelector.bind(document);
+// const $$ = document.querySelectorAll.bind(document);
 
 window.addEventListener("scroll", function () {
-  const header = $("header");
+  const header = document.querySelector("header");
   header.classList.toggle(
     "hidden",
-    window.scrollY > 0 && window.scrollY <= $(".home").offsetHeight
+    window.scrollY > 0 && window.scrollY <= document.querySelector(".home").offsetHeight
   );
-  header.classList.toggle("sticky", window.scrollY > $(".home").offsetHeight);
-  const relatedFixed = $(".related");
-  const buyNowFixed = $(".buy-now");
+  header.classList.toggle("sticky", window.scrollY > document.querySelector(".home").offsetHeight);
+  const relatedFixed = document.querySelector(".related");
+  const buyNowFixed = document.querySelector(".buy-now");
   relatedFixed.classList.toggle(
     "sticky",
-    window.scrollY > $(".home").offsetHeight
+    window.scrollY > document.querySelector(".home").offsetHeight
   );
   buyNowFixed.classList.toggle(
     "sticky",
-    window.scrollY > $(".home").offsetHeight
+    window.scrollY > document.querySelector(".home").offsetHeight
   );
-  const moveTop = $(".move-top");
-  moveTop.classList.toggle("sticky", window.scrollY > $(".home").offsetHeight);
+  const moveTop = document.querySelector(".move-top");
+  moveTop.classList.toggle("sticky", window.scrollY > document.querySelector(".home").offsetHeight);
 });
-
-function toast({ title = "", message = "", type = "info", duration = 3000 }) {
-  const main = document.querySelector("#toast-msg");
-  if (main) {
-    const toast = document.createElement("div");
-
-    const autoRemoveId = setTimeout(function () {
-      main.removeChild(toast);
-    }, duration + 1000);
-
-    toast.onclick = function (e) {
-      if (e.target.closest(".toast__close")) {
-        main.removeChild(toast);
-        clearTimeout(autoRemoveId);
-      }
-    };
-    const icons = {
-      success: "bi bi-check-circle-fill",
-      info: "bi bi-info-circle-fill",
-      warning: "bi bi-exclamation-circle-fill",
-      error: "bi bi-x-circle-fill",
-    };
-
-    const delay = (duration / 1000).toFixed(2);
-
-    const icon = icons[type];
-
-    toast.classList.add("toasts", `toast--${type}`);
-    toast.style.animation = `slideInLeft .4s ease,fadeOut 1s linear ${delay}s forwards`;
-
-    toast.innerHTML = `
-            <div class="toast__icon">
-                <i class="${icon}"></i>
-            </div>
-            <div class="toast__body">
-                <h3 class="toast__title">${title}</h3>
-                <p class="toast__msg">${message}.</p>
-            </div>
-            <div class="toast__close">
-                <i class="bi bi-x"></i>
-            </div>
-        `;
-
-    main.appendChild(toast);
-  }
-}
-
-function showSuccessToast() {
-  toast({
-    title: "Success",
-    message: "Bạn đã đang kí thành công tài khoản!",
-    type: "success",
-    duration: 3000,
-  });
-}
-
-function showErrorToast() {
-  toast({
-    title: "Error",
-    message: "Đã xảy ra lỗi, vui lòng thử lại!",
-    type: "error",
-    duration: 3000,
-  });
-}
 
 // ============================
 // JavaScript for Top Form
 // ============================
 
-var formTop = $(".form");
+var formTop = document.querySelector(".form");
 if (formTop) {
-  const userBtn = $(".top__connect--user");
-  const formTopOverlay = $(".form__overlay");
-  const formTopLogin = $(".form__login");
-  const formTopRegister = $(".form__register");
-  const formTopClose = $(".close-form-btn");
-  const registerInLogin = $(".register-in-login");
-  const loginInRegister = $(".login-in-register");
-  const loginNotify = $("span.login--notify");
-  const notLogin = $(".not-login__sign-in");
+  const userBtn = document.querySelector(".top__connect--user");
+  const formTopOverlay = document.querySelector(".form__overlay");
+  const formTopLogin = document.querySelector(".form__login");
+  const formTopRegister = document.querySelector(".form__register");
+  const formTopClose = document.querySelector(".close-form-btn");
+  const registerInLogin = document.querySelector(".register-in-login");
+  const loginInRegister = document.querySelector(".login-in-register");
+  const loginNotify = document.querySelector("span.login--notify");
+  const notLogin = document.querySelector(".not-login__sign-in");
 
   userBtn.onclick = () => {
     formTop.style.visibility = "visible";
@@ -153,10 +89,10 @@ if (formTop) {
 // JavaScript for Seach Screen
 // ============================
 
-const searchScreen = $(".search-screen");
-const searchScreenOverlay = $(".search-overlay");
-const searchScreenClose = $(".close-search-btn");
-const searchScreenBtn = $(".header__more--search");
+const searchScreen = document.querySelector(".search-screen");
+const searchScreenOverlay = document.querySelector(".search-overlay");
+const searchScreenClose = document.querySelector(".close-search-btn");
+const searchScreenBtn = document.querySelector(".header__more--search");
 
 searchScreenBtn.onclick = () => {
   searchScreen.style.visibility = "visible";
@@ -183,10 +119,10 @@ searchScreenOverlay.onclick = (e) => {
 // JavaScript for Menu Right Bar
 // ============================
 
-const menuListBtn = $(".header__more--list");
-const menuListItem = $(".more__list--element");
-const menuListCloseBtn = $(".more__element--close");
-const menuListOverlay = $(".more__list--overlay");
+const menuListBtn = document.querySelector(".header__more--list");
+const menuListItem = document.querySelector(".more__list--element");
+const menuListCloseBtn = document.querySelector(".more__element--close");
+const menuListOverlay = document.querySelector(".more__list--overlay");
 
 menuListBtn.onclick = () => {
   menuListOverlay.classList.add("active");
@@ -209,19 +145,19 @@ menuListCloseBtn.onclick = () => {
 // JavaScript for Mobile Menu
 // ============================
 
-const navmb = $(".navmb");
-const headerMenu = $(".header__menu");
-const navmbPage = $(".navmb__page");
-const navmbPages = $(".navmb__pages");
-const navmbDestination = $(".navmb__destination");
-const navmbDestinations = $(".navmb__destinations");
-const navmbTour = $(".navmb__tour");
-const navmbTours = $(".navmb__tours");
-const navmbBlog = $(".navmb__blog");
-const navmbBlogs = $(".navmb__blogs");
-const navmbBlogText = $(".navmb__blog--text");
-const navmbBlogsList = $(".navmb__blogs--list");
-const navmbBlogItem = $(".navmb__blogs--more");
+const navmb = document.querySelector(".navmb");
+const headerMenu = document.querySelector(".header__menu");
+const navmbPage = document.querySelector(".navmb__page");
+const navmbPages = document.querySelector(".navmb__pages");
+const navmbDestination = document.querySelector(".navmb__destination");
+const navmbDestinations = document.querySelector(".navmb__destinations");
+const navmbTour = document.querySelector(".navmb__tour");
+const navmbTours = document.querySelector(".navmb__tours");
+const navmbBlog = document.querySelector(".navmb__blog");
+const navmbBlogs = document.querySelector(".navmb__blogs");
+const navmbBlogText = document.querySelector(".navmb__blog--text");
+const navmbBlogsList = document.querySelector(".navmb__blogs--list");
+const navmbBlogItem = document.querySelector(".navmb__blogs--more");
 
 headerMenu.onclick = () => {
   navmb.classList.toggle("active");
@@ -255,8 +191,10 @@ navmbBlogsList.onclick = () => {
 
 var parallaxBg = document.querySelector(".home__parallax-bg");
 window.addEventListener("scroll", () => {
-  var yPos = window.pageYOffset;
-  parallaxBg.style.transform = "translateY(" + yPos * 0.4 + "px)";
+  if (parallaxBg) {
+    var yPos = window.pageYOffset;
+    parallaxBg.style.transform = "translateY(" + yPos * 0.4 + "px)";
+  }
 });
 
 // Lấy các phần tử chứa phần trăm
@@ -326,23 +264,6 @@ var foodPercentTarget = 100;
 var hospitalityPercentTarget = 60;
 var hygienePercentTarget = 80;
 var receptionPercentTarget = 60;
-
-function increasePercent(element, targetPercent) {
-  var currentPercent = 0; // Phần trăm hiện tại
-
-  var intervalId = setInterval(function () {
-    // Tăng giá trị phần trăm hiện tại
-    currentPercent++;
-
-    // Cập nhật nội dung của phần tử với phần trăm hiện tại
-    element.textContent = currentPercent + " %";
-
-    // Kiểm tra nếu đạt đến giá trị mục tiêu, dừng vòng lặp
-    if (currentPercent >= targetPercent) {
-      clearInterval(intervalId);
-    }
-  }, 32); // Điều chỉnh tốc độ tăng phần trăm tại đây (milliseconds)
-}
 
 // Tab Pane
 
@@ -414,13 +335,15 @@ function openMap() {
 const openMapBtn = document.querySelector(".map-btn");
 const mapIframe = document.querySelector(".map-iframe");
 
-openMapBtn.addEventListener("click", () => {
-  navigator.geolocation.getCurrentPosition((position) => {
-    coords = position.coords;
-    const url = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d0.1!2d${coords.longitude}!3d${coords.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1234567890!5m2!1sen!2sus`;
-    mapIframe.setAttribute("src", url);
+if (openMapBtn) {
+  openMapBtn.addEventListener("click", () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      coords = position.coords;
+      const url = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d0.1!2d${coords.longitude}!3d${coords.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1234567890!5m2!1sen!2sus`;
+      mapIframe.setAttribute("src", url);
+    });
   });
-});
+}
 
 // Star Rate
 
@@ -442,3 +365,4 @@ starsList.forEach((starItem) => {
     });
   });
 });
+

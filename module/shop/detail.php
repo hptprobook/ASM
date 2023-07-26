@@ -5,10 +5,6 @@ $id = $_GET['id'];
 
 $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "' . $id . '"');
 
-if (isset($_POST['add-to-cart'])) {
-  $isLogin = $_POST['is-login'];
-}
-
 ?>
 
 <style>
@@ -31,12 +27,6 @@ if (isset($_POST['add-to-cart'])) {
 </section>
 
 <section class="shop-container grid wide">
-
-  <?
-  if (isset($isLogin) && $isLogin == 1) {
-    echo '<div class="alert alert-error">Please <span class="login--notify">log in here</span> before using the shopping cart!</div>';
-  }
-  ?>
   <div class="row">
     <div class="col l-5">
       <div class="shop-container__img">
@@ -62,20 +52,12 @@ if (isset($_POST['add-to-cart'])) {
           <p>( 240 customers preview)</p>
         </div>
         <p class="shop_container__info--short-desc pt-4"><? echo $product_info['short_desc'] ?></p>
-        <form
-          action="
-            <?
-            if ($user->is_login()) echo '?mod=cart&act=add';
-            else '';
-            ?>
-          "
-          method="post" class="shop-container__form"
-        >
+        <form class="shop-container__form">
           <? if (!$user->is_login()) { ?>
-          <input type="hidden" name="is-login" value="1">
+          <input type="hidden" name="is-login" value="1" class="shop-container__status--account">
           <? } ?>
           <input type="number" name="quantity" value="1" min="1" class="shop-container__quantity">
-          <input type="hidden" name="product_id" value="<? echo $id ?>">
+          <input type="hidden" name="product_id" value="<? echo $id ?>" class="shop-container__id">
           <button type="submit" name="add-to-cart">ADD TO CART</button>
         </form>
       </div>
