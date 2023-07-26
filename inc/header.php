@@ -60,7 +60,17 @@ $cart = $GLOBALS['cart'];
     <div class="logout-notification-modal">
       <div class="logout-notification">
         <p>Logout Successfully</p>
-        <a href="" class="btn btn-primary float-end">OK</a>
+        <a href="?" class="btn btn-primary float-end">OK</a>
+      </div>
+    </div>
+
+    <div class="order__reason--overlay">
+      <div class="order__reason">
+        <p>
+          <span class="order__reason--by">Your</span>
+          reason: <span class="order__reason--main">I like i cancel</span>
+        </p>
+        <button class="btn btn-primary order__reason--close">OK</button>
       </div>
     </div>
 

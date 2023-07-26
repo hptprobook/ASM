@@ -159,12 +159,12 @@ $(document).ready(function () {
         },
         dataType: "json",
         success: function (data) {
-          var headerCartIcon = $(".header__cart--more-item");
-          var headerCartCnt = $(".header__cart--more--cnt");
 
 
           showSuccessToast('Add to cart successfully!');
 
+          var headerCartIcon = $(".header__cart--more-item");
+          var headerCartCnt = $(".header__cart--more--cnt");
           var cartItem = "";
           var cnt = 0;
 
@@ -205,17 +205,39 @@ $(document).ready(function () {
       data: {},
       dataType: "json",
     })
-      .done(function (data) {
-        if (data) {
-          $(".logout-notification-modal").addClass("active");
-        } else {
-          showErrorToast("Logout failed!");
-        }
-      })
-      .fail(function (xhr, ajaxOptions, thrownError) {
-        console.log(xhr.status);
-        console.log(thrownError);
-      });
+    .done(function (data) {
+      if (data) {
+        $(".logout-notification-modal").addClass("active");
+      } else {
+        showErrorToast("Logout failed!");
+      }
+    })
+    .fail(function (xhr, ajaxOptions, thrownError) {
+      console.log(xhr.status);
+      console.log(thrownError);
+    });
+  });
+
+  $('.profile-logout').click(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+      url: "./module/user/logout.php",
+      method: "GET",
+      data: {},
+      dataType: "json",
+    })
+    .done(function (data) {
+      if (data) {
+        $(".logout-notification-modal").addClass("active");
+      } else {
+        showErrorToast("Logout failed!");
+      }
+    })
+    .fail(function (xhr, ajaxOptions, thrownError) {
+      console.log(xhr.status);
+      console.log(thrownError);
+    });
   });
 
   // Update Cart
@@ -243,8 +265,7 @@ $(document).ready(function () {
           if (typeof item === "object") {
             orderCartItem += `
               <tr style="height: 136px;border-bottom:1px solid #dedcdc;">
-                <td><input type="checkbox" name="selected[]"/></td>
-                <td><a title="Remove Item" href="?mod=cart&act=remove&id=<? echo $cart_item['id'] ?>" class="p-3 text-black text-decoration-none delete-cart-btn">X</a></td>
+                <td><input type="checkbox" name="selected[]" value="${item.id}"></td>
                 <td>${item.name}</td>
                 <td><img src="${item.image_url}" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></td>
                 <td>$${item.price}</td>
@@ -255,10 +276,34 @@ $(document).ready(function () {
               </tr>
             `;
           }
+
         });
         updateBody.html(orderCartItem);
         var totalAmount = data.pop();
         totalAmountDiv.text(totalAmount);
+
+      var headerCartIcon = $(".header__cart--more-item");
+        var headerCartCnt = $(".header__cart--more--cnt");
+        var cartItem = "";
+        var cnt = 0;
+
+        data.forEach((item) => {
+          cartItem += `<div class="header__cart--item d-flex align-items-center mt-3">
+            <div class="cart__item--img">
+              <img src="${item.image_url}" alt="">
+            </div>
+            <div class="cart__item--info">
+              <h4>${item.name}</h4>
+              <span class="pb-1">Quantity: ${item.quantity}</span>
+              <span>Price: $${item.subtotal}</span>
+            </div>
+            <div class="cart_remove"><a href="#">x</a></div>
+          </div>`;
+          cnt++;
+        });
+
+        headerCartIcon.html(cartItem);
+        headerCartCnt.text(cnt);
       },
       error: function (xhr, ajaxOptions, thrownError) {
         console.log(xhr.status);
@@ -281,15 +326,111 @@ $(document).ready(function () {
   });
 
   $('.cart-checkout-remove').click(function(e) {
+    e.preventDefault();
     var isChecked = $("input[name='selected[]']:checked").length > 0;
 
     if (!isChecked) {
-      e.preventDefault();
       showErrorToast('No product selected!');
     } else {
+      var selected = []; // Tạo một mảng để chứa số lượng của từng sản phẩm
+      $("input[name='selected[]']:checked").each(function () {
+        selected.push($(this).val()); // Thêm số lượng vào mảng
+      });
 
+      $.ajax({
+        url: "./module/cart/remove_all.php",
+        method: "GET",
+        data: {
+          'selectedIds': selected,
+        },
+        dataType: "json",
+        success: function (data) {
+          var orderCartItem = "";
+
+          var updateBody = $(".update-cart-table-body");
+          var totalAmountDiv = $('.total-amount-cart');
+          data.forEach((item) => {
+            if (typeof item === "object") {
+              orderCartItem += `
+                <tr style="height: 136px;border-bottom:1px solid #dedcdc;">
+                  <td><input type="checkbox" name="selected[]" value="${item.id}"></td>
+                  <td>${item.name}</td>
+                  <td><img src="${item.image_url}" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></td>
+                  <td>$${item.price}</td>
+                  <td>
+                    <input class="cart-quantity-input" type="number" min="1" value="${item.quantity}" name="qty[]">
+                  </td>
+                  <td>$${item.subtotal}</td>
+                </tr>
+              `;
+            }
+          });
+          updateBody.html(orderCartItem);
+          var totalAmount = data.pop();
+          totalAmountDiv.text(totalAmount);
+          var headerCartIcon = $(".header__cart--more-item");
+          var headerCartCnt = $(".header__cart--more--cnt");
+          var cartItem = "";
+          var cnt = 0;
+
+          data.forEach((item) => {
+            cartItem += `<div class="header__cart--item d-flex align-items-center mt-3">
+              <div class="cart__item--img">
+                <img src="${item.image_url}" alt="">
+              </div>
+              <div class="cart__item--info">
+                <h4>${item.name}</h4>
+                <span class="pb-1">Quantity: ${item.quantity}</span>
+                <span>Price: $${item.subtotal}</span>
+              </div>
+              <div class="cart_remove"><a href="#">x</a></div>
+            </div>`;
+            cnt++;
+          });
+
+          headerCartIcon.html(cartItem);
+          headerCartCnt.text(cnt);
+          showSuccessToast('Remove successfully!');
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          console.log(xhr.status);
+          console.log(thrownError);
+        },
+      });
     }
+  });
+
+  // Order Reason handlerss
+  $('.order__reason--close').click(function() {
+    $('.order__reason--overlay').removeClass('active');
   })
+  $('.order__reason--btn').click(function(e) {
+    e.preventDefault();
+
+    var id = $(this).data('id');
+
+    $.ajax({
+      url: "./module/user/reason.php",
+      method: "GET",
+      data: {
+        'id': id
+      },
+      dataType: "json",
+      success: function (data) {
+        console.log(data)
+        $('.order__reason--overlay').addClass('active');
+        for (let key in data) {
+          const value = data[key];
+          $('.order__reason--by').text(key);
+          $('.order__reason--main').text(value);
+        }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      },
+    });
+  });
 
 
 });

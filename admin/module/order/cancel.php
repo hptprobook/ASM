@@ -13,7 +13,7 @@ if (isset($_POST['reason-btn'])) {
     );
     if ($admin->update('user_cart_comp', $data, 'id="' . $_GET['id'] . '"')) {
       $is_cancel = true;
-      header("Refresh: 2; URL=?mod=order&act=main");
+      header("Refresh: 0.5; URL=?mod=order&act=main");
     }
   }
 }

@@ -20,11 +20,11 @@ $orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $users['
     padding-left: 20px;
   }
 
-  .delete-cart-btn {
+  .delete-cart-item-btn {
     font-weight: 600;
   }
 
-  .delete-cart-btn:hover {
+  .delete-cart-item-btn:hover {
     color: #3fd0d4 !important;
   }
 </style>
@@ -46,10 +46,9 @@ $orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $users['
         <thead>
           <tr style="height: 36px;border-bottom:1px solid #dedcdc;">
             <th style="width: 10%;"><input type="checkbox" class="check-all-item"/></th>
-            <th style="width: 10%;"></th>
             <th style="width: 25%;">Product</th>
-            <th style="width: 15%;"></th>
-            <th style="width: 10%;">Price</th>
+            <th style="width: 20%;"></th>
+            <th style="width: 15%;">Price</th>
             <th style="width: 15%;">Quantity</th>
             <th style="width: 15%;">SubTotal</th>
           </tr>
@@ -66,7 +65,6 @@ $orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $users['
 
             <tr style="height: 136px;border-bottom:1px solid #dedcdc;">
               <td><input type="checkbox" name="selected[]" value="<? echo $cart_item['id'] ?>"></td>
-              <td><a title="Remove Item" href="?mod=cart&act=remove&id=<? echo $cart_item['id'] ?>" class="p-3 text-black text-decoration-none delete-cart-btn">X</a></td>
               <td><? echo $product['name'] ?></td>
               <td><img src="<? echo $product['image_url'] ?>" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></td>
               <td>$<? echo $product['price'] ?> </td>
@@ -94,7 +92,7 @@ $orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $users['
     <div class="cart-checkout mt-5 mb-5">
       <a
         <? if (!empty($user_carts)) { ?>
-        href="?mod=cart&act=remove_all"
+        href=""
         <? } ?>
         class="cart-checkout-remove"
       >REMOVE</a>

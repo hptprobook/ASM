@@ -8,7 +8,7 @@ if (isset($_POST['cancel-btn'])) {
     'note' => $reason
   );
   if ($database->update('user_cart_comp', $data, 'id = "' . $id . '"')) {
-    header('Refresh: 1; URL= ?mod=user&act=order');
+    header('Refresh: 0.25; URL= ?mod=user&act=order');
     $is_cancel = true;
   };
 }

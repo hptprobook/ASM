@@ -5,7 +5,7 @@
 
 if ($admin->remove('user_cart_comp', 'id="'.$_GET['id'].'"')) {
   $is_remove = true;
-  header("Refresh: 2; URL=?mod=order&act=main");
+  header("Refresh: 0.5; URL=?mod=order&act=main");
 }
 
 ?>

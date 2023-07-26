@@ -91,7 +91,7 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
       <td class="text-center">
 
         <? if ($item['status'] == 4 || $item['status'] == 3) { ?>
-          <a style="color: #222" href="?mod=user&act=reason&id=<? echo $item['id'] ?> ">Reason?</a>
+          <a style="color: #222" href="" data-id="<? echo $item['id'] ?>" class="order__reason--btn">Reason?</a>
         <? } else { ?>
             <a style="color: #222" href="?mod=user&act=cancel_order&id=<? echo $item['id'] ?>">Cancel</a>
         <? } ?>

@@ -1,6 +1,7 @@
 .login-notification-modal,
 .logout-notification-modal,
-.register-notification-modal {
+.register-notification-modal,
+.order__reason--overlay {
   position: fixed;
   left: 0;
   top: 0;
@@ -14,7 +15,8 @@
 
 .login-notification,
 .logout-notification,
-.register-notification {
+.register-notification,
+.order__reason {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -33,10 +35,11 @@
 }
 
 .login-notification p,
-.register-notification p {
+.register-notification p,
+.order__reason p {
   color: #212121;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .login-notification-modal.active,
@@ -53,6 +56,12 @@
 
 .logout-notification-modal.active,
 .logout-notification-modal.active .logout-notification {
+  opacity: 1;
+  visibility: visible;
+}
+
+.order__reason--overlay.active,
+.order__reason--overlay.active .order__reason {
   opacity: 1;
   visibility: visible;
 }
