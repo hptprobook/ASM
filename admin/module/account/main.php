@@ -39,7 +39,7 @@ getHeader();
             <td><? echo $user['name'] ?></td>
             <td><? echo $user['address'] ?></td>
             <td><? echo $user['phone'] ?></td>
-            <td><a href="?mod=account&act=delete&id=<? echo $user['user_id']; ?>"><i class="bi bi-trash3"></i></a></td>
+            <td><a class="btn btn-danger" href="?mod=account&act=delete&id=<? echo $user['user_id']; ?>"><i class="bi bi-trash3"></i></a></td>
           </tr>
 
         <? } ?>

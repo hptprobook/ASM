@@ -54,32 +54,33 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
   </div>
   <table style="width: 100%;">
     <tr style="height: 36px;border-bottom:1px solid #dedcdc;">
-      <th style="width: 15%;" class="text-center">Product</th>
+      <th style="width: 10%;" class="text-center">Product</th>
       <th style="width: 20%;"></th>
-      <th style="width: 10%;"></th>
+      <th style="width: 5%;"></th>
       <th style="width: 15%;" class="text-center">Date</th>
       <th style="width: 15%;" class="text-center">SubTotal</th>
       <th style="width: 15%;" class="text-center">Status</th>
       <th style="width: 10%;" class="text-center">Action</th>
+      <th style="width: 10%;" class="text-center">Received</th>
     </tr>
 
     <?
 
     foreach ($user_cart_complete as $item) { ?>
 
-    <tr style="height: 136px;border-bottom:1px solid #dedcdc;">
+    <tr style="height: 136px;border-bottom:1px solid #dedcdc;" data-id="<? echo $item['id'] ?>">
       <td class="text-center"><? echo $item['name'] ?></td>
       <td><img src="<? echo $item['image_url'] ?>" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></td>
       <td>x <? echo $item['quantity'] ?></td>
       <td class="text-center"><? echo $item['ship_date'] ?></td>
       <td class="text-center">$<? echo $item['subtotal'] ?> </td>
-      <td class="text-center">
+      <td class="text-center order-status">
         <?if ($item['status'] == -1) {
           echo '<div class="text-50-black">Unconfimred</div>';
         }elseif ($item['status'] == 0) {
           echo '<div class="text-warning">Confirmed</div>';
         } elseif ($item['status'] == 1) {
-          echo '<div class="text-info">Delivery</div>';
+          echo '<div class="text-info">Delivering</div>';
         } elseif ($item['status'] == 2) {
           echo '<div class="text-success">Received</div>';
         } elseif ($item['status'] == 3) {
@@ -88,13 +89,20 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
           echo '<div class="text-secondary">Cancelled by admin</div>';
         } else echo ''; ?>
       </td>
-      <td class="text-center">
+      <td class="text-center order-cancel">
 
         <? if ($item['status'] == 4 || $item['status'] == 3) { ?>
           <a style="color: #222" href="" data-id="<? echo $item['id'] ?>" class="order__reason--btn">Reason?</a>
-        <? } else { ?>
+        <? } elseif ($item['status'] == 2) { ?>
+
+        <?} else { ?>
             <a style="color: #222" href="?mod=user&act=cancel_order&id=<? echo $item['id'] ?>">Cancel</a>
         <? } ?>
+      </td>
+      <td class="text-center order-received">
+        <? if ($item['status'] == 1) { ?>
+        <a data-id="<? echo $item['id'] ?>" href="" class="confirm-received-btn" title="Confirm Received this Product"><i class="bi bi-check-circle-fill"></i></a>
+         <? } ?>
       </td>
     </tr>
 
@@ -115,6 +123,15 @@ $user_cart_complete = isset($user_id) ? $database->get_list('SELECT user_cart_co
     border: 0.5px solid #838383;
     position: relative;
     padding-left: 20px;
+  }
+  .confirm-received-btn {
+    padding: 10px 12px;
+    background-color: #3fd0d4;
+    color: #fff;
+  }
+  .confirm-received-btn:hover {
+    background-color: #09878b;
+    color: #fff;
   }
   .delete-cart-btn {
     font-weight: 600;

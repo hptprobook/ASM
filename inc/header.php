@@ -64,6 +64,22 @@ $cart = $GLOBALS['cart'];
       </div>
     </div>
 
+    <div class="lost-password__overlay">
+      <form class="lost-password__form">
+        <i class="bi bi-x-circle lost-password__form--close"></i>
+        <h3 class="lost-password__form--heading">Password retrieval</h3>
+        <label for="lost-password__email" class="form-label">Input your email ...</label>
+        <input type="email" name="lost-password__email" id="lost-password__email" placeholder="example@gmail.com">
+        <button type="submit" name="lost-password__btn" class="lost-password__btn btn btn-primary mt-4">SEND CODE</button>
+        <div class="lost-password__code--form">
+          <label for="lost-password__code--enter" class="form-label">Code in your email...</label>
+          <input type="text" id="lost-password__code--enter">
+          <button type="submit" class="lost-password__code--btn btn btn-primary mt-4">SUBMIT</button>
+        </div>
+      </form>
+
+    </div>
+
     <div class="order__reason--overlay">
       <div class="order__reason">
         <p>
@@ -121,7 +137,6 @@ $cart = $GLOBALS['cart'];
     <!-- ========== Main Form ========== -->
     <?php
     $login_username = isset($_COOKIE['username']) ? $_COOKIE['username'] : '';
-    $login_password = isset($_COOKIE['password']) ? $_COOKIE['password'] : '';
     $login_remember = isset($_COOKIE['username']) ? true : false;
 
     if (!isset($_SESSION['is_login'])) { ?>
@@ -132,7 +147,7 @@ $cart = $GLOBALS['cart'];
 
         <div class="form__login text-white">
           <div class="form__login--header d-flex">
-            <div class="form__header--item w-50 text-center login-in-register">LOGIN</div>
+            <div class="form__header--item w-50 text-center login--in-register">LOGIN</div>
             <div class="form__header--item w-50 text-center register-in-login">REGISTER</div>
           </div>
 
@@ -143,12 +158,12 @@ $cart = $GLOBALS['cart'];
 
             <form class="form__login--main" id="form__login--main">
               <div class="form-group w-100">
-                <input type="text" name="login-username" id="login-username" class="form__login--username" placeholder="Username ..." value="<? echo $login_username ?>">
+                <input type="text" name="login-username" autofocus id="login-username" class="form__login--username" placeholder="Username ..." value="<? echo $login_username ?>">
                 <i class="bi bi-person-fill form__username--icon"></i>
                 <span class="form-message"></span>
               </div>
               <div class="form-group w-100">
-                <input type="password" name="login-password" class="form__login--password" placeholder="Password ..." value="<? echo $login_password ?>">
+                <input type="password" name="login-password" class="form__login--password" placeholder="Password ..." value="">
                 <i class="bi bi-lock-fill form__password--icon"></i>
                 <span class="form-message"></span>
               </div>
@@ -186,7 +201,7 @@ $cart = $GLOBALS['cart'];
 
             <form class="form__register--main" id="form__register--main">
               <div class="form-group w-100">
-                <input type="text" name="username" class="form__register--username" placeholder="Username ...">
+                <input autofocus type="text" name="username" class="form__register--username" placeholder="Username ...">
                 <i class="bi bi-person-fill form__username--icon"></i>
                 <span class="form-message"></span>
               </div>
@@ -888,8 +903,12 @@ $cart = $GLOBALS['cart'];
 
         <div class="header__more d-flex text-black">
           <div class="header__more--icon header__more--cart">
-            <a class="text-decoration-none text-black" href="<? if ($user_obj->is_login()) echo '?mod=cart&act=show';
-                                                              else echo '?mod=user&act=not-login' ?>"><i class="bi bi-basket2"></i></a>
+            <a
+              class="text-decoration-none text-black header__more--cart-link"
+              <? if ($user_obj->is_login()) echo 'href="?mod=cart&act=show"';else echo '' ?>
+            >
+              <i class="bi bi-basket2"></i>
+            </a>
 
 
             <?
@@ -901,8 +920,9 @@ $cart = $GLOBALS['cart'];
             }
             ?>
 
-            <span class="header__cart--more--cnt"><? echo $cnt; ?></span>
-
+            <? if (isset($_SESSION['is_login'])) { ?>
+              <span class="header__cart--more--cnt"><? echo $cnt; ?></span>
+            <? } ?>
             <div class="header__cart--more">
 
 
@@ -922,8 +942,9 @@ $cart = $GLOBALS['cart'];
                 <? } ?>
               </div>
               <hr>
-
-              <a href="?mod=cart&act=show" class="btn btn-primary">VIEW CART & CHECKOUT</a>
+              <? if (isset($_SESSION['is_login'])) { ?>
+                <a href="?mod=cart&act=show" class="btn btn-primary">VIEW CART & CHECKOUT</a>
+              <? } ?>
             </div>
           </div>
           <div class="header__more--icon header__more--search">

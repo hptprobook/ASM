@@ -936,6 +936,7 @@ body {
 
 .header__nav--shop:hover .shop__more {
   min-height: 120px;
+  height: auto;
   visibility: visible;
   opacity: 1;
   overflow: visible;

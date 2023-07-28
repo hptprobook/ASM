@@ -28,11 +28,9 @@ if (empty($error)) {
   $_SESSION['username'] = $username;
   if ($remember) {
     setcookie('username', $username, time() + 64800, '/');
-    setcookie('password', $password, time() + 64800, '/');
   } else {
     if (isset($_COOKIE['username'])) {
       setcookie('username', $username, time() - 3600, '/');
-      setcookie('password', $password, time() - 3600, '/');
     }
   }
 }

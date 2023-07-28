@@ -37,8 +37,8 @@ $products_list = $admin->get_list("SELECT * FROM products");
             <a href=""><? echo $product['cat_id'] ?></a>
           </td>
           <td class="text-center">
-            <a href="?mod=up_product&act=update&id=<? echo $product['product_id'] ?>" title="Sửa"><i class="bi bi-pencil-square"></i></a>
-            <a href="?mod=up_product&act=delete&id=<? echo $product['product_id'] ?>" title="Xoá"><i class="bi bi-trash3-fill"></i></a>
+            <a class="btn btn-info" href="?mod=up_product&act=update&id=<? echo $product['product_id'] ?>" title="Sửa"><i class="bi bi-pencil-square"></i></a>
+            <a class="btn btn-danger" href="?mod=up_product&act=delete&id=<? echo $product['product_id'] ?>" title="Xoá"><i class="bi bi-trash3-fill"></i></a>
           </td>
         </tr>
       <? } ?>

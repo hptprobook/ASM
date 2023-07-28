@@ -33,9 +33,9 @@ const usernameValidate = () => {
   };
 
   if (username.value === "") {
-    setError(username, "Trường này không được để trống");
+    setError(username, "This field cannot be empty!");
   } else if (!usernameInvalid(username.value)) {
-    setError(username, "Ký tự không hợp lệ");
+    setError(username, "Invalid character!");
   } else {
     setSuccess(username);
   }
@@ -49,9 +49,9 @@ const emailValidate = () => {
   };
 
   if (email.value === "") {
-    setError(email, "Trường này không được để trống");
+    setError(email, "This field cannot be empty!");
   } else if (!emailInvalid(email.value)) {
-    setError(email, "Trường này phải là Email");
+    setError(email, "This field must be email!");
   } else {
     setSuccess(email);
   }
@@ -76,15 +76,15 @@ const passwordValidate = () => {
   };
 
   if (password.value === "") {
-    setError(password, "Trường này không được để trống");
+    setError(password, "This field cannot be empty!");
   } else if (password.value.length < 6) {
-    setError(password, "Mật khẩu phải chứa ít nhất 6 ký tự");
+    setError(password, "Password must contain at least 6 characters!");
   } else if (!textPassInvalid(password.value)) {
-    setError(password, "Mật khẩu phải chứa ít nhất 1 chữ cái");
+    setError(password, "Password must contain at least 1 letter!");
   } else if (!numberPassInvalid(password.value)) {
-    setError(password, "Mật khẩu phải chứa ít nhất 1 số");
+    setError(password, "Password must contain at least 1 number!");
   } else if (!charPassInvalid(password.value)) {
-    setError(password, "Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt");
+    setError(password, "Password must contain at least 1 special character!");
   } else {
     setSuccess(password);
   }
@@ -94,7 +94,7 @@ const passwordValidate = () => {
 
 const confirmPasswordValidate = () => {
   if (confirmPassword.value !== password.value) {
-    setError(confirmPassword, "Mật khẩu không trùng khớp");
+    setError(confirmPassword, "Password does not match!");
   } else {
     setSuccess(confirmPassword);
   }

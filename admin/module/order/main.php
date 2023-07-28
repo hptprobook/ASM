@@ -55,17 +55,17 @@ $order_list = $admin->get_list('SELECT * FROM user_cart_comp');
               <? if ($item['status'] != 3) { ?>
                 <?
                 if ($item['status'] == -1) { ?>
-                  <a href="?mod=order&act=confirm&id=<? echo $item['id'] ?>" class="d-block" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
+                  <a class="btn mt-2 btn-success" href="?mod=order&act=confirm&id=<? echo $item['id'] ?>" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
                 <? } ?>
                 <?
                 if ($item['status'] == 0) { ?>
-                  <a href="?mod=order&act=ship_confirm&id=<? echo $item['id'] ?>" class="d-block" title="Xác nhận giao hàng"><i class="bi bi-rocket"></i></a>
+                  <a class="btn mt-2 btn-primary" href="?mod=order&act=ship_confirm&id=<? echo $item['id'] ?>" title="Xác nhận giao hàng"><i class="bi bi-rocket"></i></a>
                 <? } ?>
 
-                <a href="?mod=order&act=cancel&id=<? echo $item['id'] ?>" class="d-block" title="Huỷ đơn hàng này"><i class="bi bi-exclamation-lg"></i></a>
+                <a class="btn mt-2 btn-warning" href="?mod=order&act=cancel&id=<? echo $item['id'] ?>" title="Huỷ đơn hàng này"><i class="bi bi-exclamation-lg"></i></a>
 
               <? } ?>
-              <a href="?mod=order&act=remove&id=<? echo $item['id'] ?>" class="d-block" title="Xoá đơn hàng này"><i class="bi bi-trash3"></i></i></a>
+              <a class="btn mt-2 btn-danger" href="?mod=order&act=remove&id=<? echo $item['id'] ?>" title="Xoá đơn hàng này"><i class="bi bi-trash3"></i></i></a>
             </td>
           </tr>
 
