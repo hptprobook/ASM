@@ -594,6 +594,11 @@ $(document).ready(function () {
     $(".top__connect--user").click();
   });
 
+  $('.new-password__form--close').click(function() {
+    $(".lost-password__overlay").removeClass("active");
+    $(".top__connect--user").click();
+  })
+
   $(".lost-password__form").submit(function (e) {
     e.preventDefault();
 
@@ -612,7 +617,6 @@ $(document).ready(function () {
           $(".lost-password__code--form").addClass("active");
           $("#lost-password__email").attr("readonly", "true");
 
-
           $('.lost-password__code--btn').click(function(e) {
             e.preventDefault();
             var userCode = $('#lost-password__code--enter').val();
@@ -623,10 +627,58 @@ $(document).ready(function () {
                 'code': data,
                 'user_code': userCode
               },
-              dataType: "text",
+              dataType: "json",
               success: function (newdata) {
-                if (newdata === '') {
+                if (newdata) {
+                  showSuccessToast('Correct code!');
 
+                  $('.lost-password__form').addClass('hidden');
+                  $('.new-password__form').addClass('active');
+
+                  $('.new-password__form').submit(function(e) {
+                    e.preventDefault();
+                    var changeNewPassword = $('#new-password__pass').val();
+                    var changeRenewPassword = $('#new-password__repass').val();
+
+                    $.ajax({
+                      url: "./module/user/change-new-password.php",
+                      method: "POST",
+                      data: {
+                        'new-password': changeNewPassword,
+                        'renew-password': changeRenewPassword,
+                        'lost-password__email': email
+                      },
+                      dataType: "json",
+                      success: function (data2) {
+                        console.log(data2);
+                        if (data2) {
+
+                          showSuccessToast('Change password successfully!');
+                          $('.lost-password__overlay').removeClass('active');
+                          $(".top__connect--user").click();
+
+                        } else {
+                          for (var error in data2) {
+                            var value = data2[error];
+                            showErrorToast(value);
+                            break;
+                          }
+                        }
+                      },
+                      error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                      },
+                    });
+
+                  });
+
+                } else {
+                  for (var error in newdata) {
+                    var value = newdata[error];
+                    showErrorToast(value);
+                    break;
+                  }
                 }
               },
               error: function (xhr, ajaxOptions, thrownError) {
@@ -636,6 +688,12 @@ $(document).ready(function () {
             });
 
           });
+        } else {
+          for (var error in data) {
+            var value = data[error];
+            showErrorToast(value);
+            break;
+          }
         }
       },
       error: function (xhr, ajaxOptions, thrownError) {

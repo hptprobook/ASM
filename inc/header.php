@@ -78,6 +78,18 @@ $cart = $GLOBALS['cart'];
         </div>
       </form>
 
+      <form class="new-password__form">
+        <i class="bi bi-x-circle new-password__form--close"></i>
+        <h2 class="new-password__form--heading">Change new password</h2>
+        <label for="new-password__pass" class="form-label">New password</label>
+        <input type="password" name="new-password__pass" id="new-password__pass">
+
+        <label for="new-password__repass" class="form-label">Retype new password</label>
+        <input type="password" name="new-password__repass" id="new-password__repass">
+
+        <button type="submit" name="new-password__btn" class="new-password__btn btn btn-primary mt-4">SUBMIT</button>
+      </form>
+
     </div>
 
     <div class="order__reason--overlay">

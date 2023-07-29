@@ -108,7 +108,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99999999999999;
+  z-index: 9999999;
   opacity: 0;
   visibility: hidden;
   transition: .3s ease;
@@ -119,7 +119,8 @@
   opacity: 1;
 }
 
-.lost-password__form {
+.lost-password__form,
+.new-password__form {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -129,20 +130,26 @@
   background-color: #fff;
 }
 
-.lost-password__form--heading {
+.lost-password__form--heading,
+.new-password__form--heading {
   color: #212121;
   font-size: 28px;
   padding-bottom: 12px;
   font-weight: 600;
 }
 
-.lost-password__form label {
+.lost-password__form label,
+.new-password__form label {
   font-size: 14px;
   font-weight: 600;
+  display: block;
+  margin-top: 12px;
 }
 
 #lost-password__email,
-#lost-password__code--enter {
+#lost-password__code--enter,
+#new-password__pass,
+#new-password__repass {
   font-weight: 500;
   font-size: 14px;
   color: #555;
@@ -155,7 +162,8 @@
   padding: 0 16px;
 }
 
-.lost-password__form--close {
+.lost-password__form--close,
+.new-password__form--close {
   position: absolute;
   right: 0;
   top: 0;
@@ -164,7 +172,8 @@
   color: var(--primary-color);
 }
 
-.lost-password__form--close:hover {
+.lost-password__form--close:hover,
+.new-password__form--close:hover {
   cursor: pointer;
   background-color: var(--primary-color);
   color: #fff;
@@ -176,4 +185,16 @@
 
 .lost-password__code--form.active {
   display: block;
+}
+
+.new-password__form {
+  display: none;
+}
+
+.new-password__form.active {
+  display: block;
+}
+
+.lost-password__form.hidden {
+  display: none;
 }
