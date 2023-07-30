@@ -22,11 +22,12 @@ function is_username($value)
 
 function is_password($value)
 {
-  $pattern = '/^(?=.*[A-Za-z]).+$/';
+  $pattern = '/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/';
 
   if (!preg_match($pattern, $value)) return false;
   return true;
 }
+
 
 function is_email($value)
 {
@@ -36,7 +37,8 @@ function is_email($value)
   return true;
 }
 
-function is_fullname($value) {
+function is_fullname($value)
+{
   // Họ và tên không được rỗng và có thể chứa các ký tự chữ cái, khoảng trắng và các ký tự có dấu
   $pattern = '/^[\p{L}\s]+$/u';
 
@@ -44,7 +46,8 @@ function is_fullname($value) {
   return true;
 }
 
-function is_address($value) {
+function is_address($value)
+{
   // Địa chỉ không được rỗng và có thể chứa các ký tự chữ cái, số, dấu cách, các ký tự có dấu và các ký tự đặc biệt
   $pattern = '/^[\p{L}0-9\s\-.,#]+$/u';
 
@@ -61,7 +64,8 @@ function is_phone($value)
   return true;
 }
 
-function generateVerificationCode() {
+function generateVerificationCode()
+{
   // Độ dài của mã xác nhận
   $codeLength = 6;
 
@@ -73,8 +77,8 @@ function generateVerificationCode() {
 
   // Lặp để sinh ngẫu nhiên mã xác nhận
   for ($i = 0; $i < $codeLength; $i++) {
-      $index = rand(0, strlen($digits) - 1);
-      $verificationCode .= $digits[$index];
+    $index = rand(0, strlen($digits) - 1);
+    $verificationCode .= $digits[$index];
   }
 
   return $verificationCode;

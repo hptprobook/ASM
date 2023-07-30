@@ -11,10 +11,11 @@ $order_list = $admin->get_list('SELECT * FROM user_cart_comp');
 <section>
   <h2 class="text-center pt-5">Danh sách đặt hàng</h2>
 
-  <div class="container">
+  <form action="?mod=order&act=remove_multi" method="post" class="container">
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th><input type="checkbox" class="order__checkall"></th>
           <th>Tên khách hàng</th>
           <th>Giao đến</th>
           <th>Số điện thoại</th>
@@ -30,6 +31,7 @@ $order_list = $admin->get_list('SELECT * FROM user_cart_comp');
         <? foreach ($order_list as $item) { ?>
 
           <tr style="height: 120px;">
+            <td> <input type="checkbox" name="selected[]" class="order__check" value="<? echo $item['id'] ?>"> </td>
             <td><a href="?mod=order&act=detail&id=<? echo $item['id'] ?>"><? echo $item['ship_name'] ?></a></td>
             <td><? echo $item['ship_address'] ?></td>
             <td><? echo $item['ship_phone'] ?></td>
@@ -72,7 +74,8 @@ $order_list = $admin->get_list('SELECT * FROM user_cart_comp');
         <? } ?>
       </tbody>
     </table>
-
+    <button type="submit" name="order__remove--multi" class="btn btn-danger mb-5">Xoá nhiều</button>
+  </form>
 </section>
 
 

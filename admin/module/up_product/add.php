@@ -21,11 +21,33 @@ if (isset($_POST['add_product-btn'])) {
   $extension_file = pathinfo(basename($image_url['name']), PATHINFO_EXTENSION);
 
   if (empty($product_name)) $error['name'] = $empty;
+  else {
+    if (strlen($product_name) > 100) $error['name'] = 'Tên sản phẩm quá dài!';
+  }
+
   if (empty($product_rate)) $error['rate'] = $empty;
+
   if (empty($product_price)) $error['price'] = $empty;
+  else {
+    if (strlen($product_price) > 1000000) $error['price'] = 'Giá sản phẩm vượt quá cho phép!';
+  }
+
   if (empty($product_code)) $error['product_code'] = $empty;
+  else {
+    if (strlen($product_code) > 30) $error['product_code'] = 'Mã sản phẩm quá dài!';
+  }
+
   if (empty($product_short_desc)) $error['short_desc'] = $empty;
+  else {
+    if (strlen($product_short_desc) > 1000) $error['short_desc'] = 'Mô tả sản phẩm quá dài!';
+  }
+
   if (empty($product_detail)) $error['detail'] = $empty;
+  else {
+    if (strlen($product_detail) > 2550) $error['detail'] = 'Chi tiết sản phẩm quá dài!';
+    if (strlen($product_detail) < 20) $error['detail'] = 'Chi tiết sản phẩm quá ngắn!';
+  }
+
   if ($image_url['error']) $error['image_url'] = $empty;
 
 
@@ -33,6 +55,26 @@ if (isset($_POST['add_product-btn'])) {
   else {
     if ($image_url['size'] >= 1048576) $error['image'] = "Kích thước ảnh không vượt quá 20MB";
     else {
+      if (file_exists('../' . $upload_file . '')) {
+        $fileName = pathinfo($image_url['name'], PATHINFO_FILENAME);
+        $newFileName = $fileName . '-Copy';
+
+        echo $fileName, $newFileName;
+
+        $newUploadFile = $upload_dir . $newFileName . '.' . $extension_file;
+
+        $cnt = 1;
+
+        while (file_exists($newUploadFile)) {
+          $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
+          $newFileName = $fileName . '-Copy(' . $cnt . ')';
+
+          $newUploadFile = $upload_dir . $newFileName . '.' . $extension_file;
+          $cnt++;
+        }
+
+        $upload_file = $newUploadFile;
+      }
       $isUploads = move_uploaded_file($image_url['tmp_name'], "../$upload_file");
       if (!$isUploads) $error['image_url'] = 'Upload file thất bại';
     }

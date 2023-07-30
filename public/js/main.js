@@ -661,7 +661,11 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         if (data.length == 0) {
-          $(".save-profile-notify-overlay").addClass("active");
+          showSuccessToast('Save Completed!');
+          $("#profile-fullname").val(fullname);
+          $("#profile-email").val(email);
+          $("#profile-address").val(address);
+          $("#profile-phone").val(phone);
         } else {
           for (var error in data) {
             var value = data[error];

@@ -102,7 +102,7 @@
                     Thông tin admin
                   </a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">
+                  <li><a class="dropdown-item" href="?mod=user&act=changepass">
                     <i class="bi bi-key"></i>
                     Đổi mật khẩu
                   </a></li>

@@ -9,7 +9,7 @@ $products_list = $admin->get_list("SELECT * FROM products");
 
   <h2 class="ps-3 pt-5 pb-2 text-center">Danh sách sản phẩm</h2>
 
-  <div class="container">
+  <form action="?mod=up_product&act=remove_multi" method="post" class="container">
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
@@ -18,7 +18,7 @@ $products_list = $admin->get_list("SELECT * FROM products");
           <th>Tên sản phẩm</th>
           <th>Đánh giá</th>
           <th>Giá tiền</th>
-          <th>Image URL</th>
+          <th>Image</th>
           <th>Mã sản phẩm</th>
           <th>Danh mục</th>
           <th class="text-center">Thao tác</th>
@@ -28,12 +28,12 @@ $products_list = $admin->get_list("SELECT * FROM products");
 
       <? foreach ($products_list as $product) { ?>
         <tr>
-          <th><input type="checkbox" class="list-product-checkbox" value="selected[]"></th>
+          <th><input type="checkbox" class="list-product-checkbox" name="selected[]" value="<? echo $product['product_id'] ?>"></th>
           <td><? echo $product['product_id'] ?></td>
           <td><? echo $product['name'] ?></td>
           <td><? echo $product['rate'] ?></td>
           <td><? echo $product['price'] ?></td>
-          <td><? echo $product['image_url'] ?></td>
+          <td><img src="../<? echo $product['image_url'] ?>" style="width: 50px; height: 50px; object-fit: cover;" alt=""></td>
           <td><? echo $product['product_code'] ?></td>
           <td>
             <a href=""><? echo $product['cat_id'] ?></a>
@@ -48,9 +48,9 @@ $products_list = $admin->get_list("SELECT * FROM products");
       </tbody>
     </table>
 
-    <a href="" class="btn btn-warning my-2">Xoá nhiều</a>
-    <a href="" class="btn btn-danger my-2">Xoá tất cả</a>
-  </div>
+    <button type="submit" name="remove__multi--btn" class="btn btn-warning my-2">Xoá nhiều</button>
+    <a href="?mod=up_product&act=remove_all" class="btn btn-danger my-2">Xoá tất cả</a>
+  </form>
 
 
 </section>

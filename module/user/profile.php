@@ -81,7 +81,7 @@
 <div class="save-profile-notify-overlay">
   <div class="save-profile-notify">
     <p>Save info successfully!</p>
-    <a href="" class="btn btn-primary float-end">Submit</a>
+    <a class="btn btn-primary float-end">Submit</a>
   </div>
 </div>
 
