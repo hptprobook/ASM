@@ -1,9 +1,11 @@
 <?
 
-class DB_Driver {
+class DB_Driver
+{
   private $__conn;
 
-  function connect() {
+  function connect()
+  {
     if (!$this->__conn) {
       $this->__conn = mysqli_connect('localhost', 'root', '', 'assignment') or die("Không thể kết nối tới Database");
     }
@@ -13,11 +15,13 @@ class DB_Driver {
     );
   }
 
-  function disconnect() {
+  function disconnect()
+  {
     if ($this->__conn) mysqli_close($this->__conn);
   }
 
-  function insert($table, $data) {
+  function insert($table, $data)
+  {
     // Kết nối DB
     $this->connect();
 
@@ -44,7 +48,8 @@ class DB_Driver {
   }
 
   // Hàm Update data
-  function update($table, $data, $where) {
+  function update($table, $data, $where)
+  {
     // Kết nối DB
     $this->connect();
     $sql = '';
@@ -59,7 +64,8 @@ class DB_Driver {
   }
 
   // Hàm Delete data
-  function remove($table, $where) {
+  function remove($table, $where)
+  {
     $this->connect();
 
     $sql = "DELETE FROM " . $table . " WHERE " . $where;
@@ -68,37 +74,72 @@ class DB_Driver {
   }
 
   // Hàm lấy danh sách
-  function get_list($sql) {
+  // function get_list($sql) {
+  //   $this->connect();
+
+  //   $result = mysqli_query($this->__conn, $sql);
+
+  //   if(!$result) die("Câu truy vấn sai!");
+
+  //   $return = array();
+
+  //   // Lặp qua kết quả và đưa vào mảng
+  //   while($row = mysqli_fetch_assoc($result)) $return[] = $row;
+
+  //   // Xoá kết quả khỏi bộ nhớ
+  //   mysqli_free_result($result);
+
+  //   return $return;
+  // }
+
+  public function get_list($sql, $params = array())
+  {
     $this->connect();
 
-    $result = mysqli_query($this->__conn, $sql);
+    $stmt = $this->__conn->prepare($sql);
 
-    if(!$result) die("Câu truy vấn sai!");
+    if (!$stmt) {
+      die("Lỗi trong câu truy vấn: " . $this->__conn->error);
+    }
 
+    if (!empty($params)) {
+      $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+      $stmt->bind_param($types, ...$params);
+    }
+
+    if (!$stmt->execute()) {
+      die("Lỗi khi thực hiện câu truy vấn: " . $stmt->error);
+    }
+
+    $result = $stmt->get_result();
     $return = array();
 
     // Lặp qua kết quả và đưa vào mảng
-    while($row = mysqli_fetch_assoc($result)) $return[] = $row;
+    while ($row = $result->fetch_assoc()) {
+      $return[] = $row;
+    }
 
-    // Xoá kết quả khỏi bộ nhớ
-    mysqli_free_result($result);
+    // Giải phóng tài nguyên
+    $stmt->close();
 
     return $return;
   }
 
+
   // Hàm lấy 1 record(row)
-  function get_row($sql) {
+  function get_row($sql)
+  {
     $this->connect();
 
     $result = mysqli_query($this->__conn, $sql);
 
-    if(!$result) die("Câu truy vấn sai!");
+    if (!$result) die("Câu truy vấn sai!");
 
     $row = mysqli_fetch_assoc($result);
 
     mysqli_free_result($result);
 
-    if($row) return $row;
+    if ($row) return $row;
 
     return false;
   }

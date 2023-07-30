@@ -6,11 +6,13 @@ require 'libs/User.php';
 require 'libs/DBDriver.php';
 require 'libs/Validate.php';
 require 'libs/Cart.php';
+require 'libs/Product.php';
 
 $database = new DB_Driver();
 $template = new Template();
 $cart = new Cart($database);
 $user = new User($database);
+$product_handle = new Product($database);
 
 $GLOBALS['cart'] = $cart;
 $GLOBALS['database'] = $database;

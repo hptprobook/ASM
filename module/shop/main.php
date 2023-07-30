@@ -2,29 +2,11 @@
 $template->getHeader();
 
 if (isset($_GET['cat_id'])) {
-  $products_list = $database->get_list('SELECT * FROM products WHERE cat_id = "' . $_GET['cat_id'] . '"');
-} elseif (isset($_POST['search-btn'])) {
-  $search = trim($_POST['search-input']);
-  $products_list = $database->get_list('SELECT * FROM products WHERE `name` LIKE "%' . $search . '%"');
-} elseif (isset($_POST['sort-btn'])) {
-  $sort = $_POST['sort-value'];
-  if ($sort == 'asc') {
-    $products_list = $database->get_list('SELECT * FROM products ORDER BY `price` ASC');
-  } elseif ($sort == 'desc') {
-    $products_list = $database->get_list('SELECT * FROM products ORDER BY `price` DESC');
-  } elseif ($sort == 'average') {
-    $products_list = $database->get_list('SELECT * FROM products ORDER BY `rate` DESC');
-  } elseif ($sort == 'name') {
-    $products_list = $database->get_list('SELECT * FROM products ORDER BY `name` ASC');
-  } else {
-    $products_list = $database->get_list('SELECT * FROM products');
-  }
-} elseif (isset($_POST['filter-btn'])) {
-  $filter = $_POST['filter-value'];
-  $products_list = $database->get_list('SELECT * FROM products WHERE price <= ' . $filter . '');
+  $products_list = $product_handle->getProductsByCategory($_GET['cat_id']);
+  $cat_id = $_GET['cat_id'];
 }
 else {
-  $products_list = $database->get_list('SELECT * FROM products');
+  $products_list = $product_handle->getAllProducts();
 }
 
 
@@ -61,7 +43,7 @@ if ($end > $total_product) {
 
         <div class="shop-container__heading">
           <p class="shop-container__heading--cnt">Showing 1–12 of 18 results</p>
-          <form class="sort-form" action="" method="post">
+          <div class="sort-form">
             <select name="sort-value" id="" class="shop-container__heading--select">
               <option value="" <? if (isset($_POST['sort-btn']) && $_POST['sort-value']) echo 'selected'; ?> >Sort</option>
               <option value="average" <? if (isset($_POST['sort-btn']) && $_POST['sort-value'] == 'average') echo 'selected'; ?> >Sort by average rating</option>
@@ -69,13 +51,11 @@ if ($end > $total_product) {
               <option value="asc" <? if (isset($_POST['sort-btn']) && $_POST['sort-value'] == 'asc') echo 'selected'; ?> >Sort by Price: low to high</option>
               <option value="desc" <? if (isset($_POST['sort-btn']) && $_POST['sort-value'] == 'desc') echo 'selected'; ?> >Sort by Price: high to low</option>
             </select>
-
-            <button type="submit" name="sort-btn"><i class="bi bi-filter"></i></button>
-          </form>
+          </div>
         </div>
 
         <div class="shop-container__product grid">
-          <div class="row">
+          <div class="row" <? if (isset($cat_id)) echo 'data-id="'.$cat_id.'"'; ?> >
 
             <? for ($i = $start; $i <= $end; $i++) { ?>
 
@@ -123,26 +103,20 @@ if ($end > $total_product) {
     </div>
 
     <div class="col l-3 m-12">
-      <form class="shop-container__search d-flex" action="" method="post">
-        <input type="text" name="search-input" class="shop-container__search--input" value=" <? if (isset($_POST['search-btn'])) echo $_POST['search-input']; ?> ">
-        <button type="submit" name="search-btn">
-          <i class="bi bi-search"></i>
-        </button>
-      </form>
-      <form action="" method="post">
+      <div class="shop-container__search d-flex">
+        <input type="text" name="search-input" placeholder="Find ..." class="shop-container__search--input" value="">
+      </div>
+      <div>
         <div class="shop-container__filter">
           <h2 class="shop-container__filter--title">Filter by price</h2>
 
-          <input type="range" name="filter-value" class="shop-container__filter--input" min="20" max="1000" value=" <? if (isset($_POST['filter-btn'])) echo $_POST['filter-value']; else echo 20; ?> ">
+          <input type="range" name="filter-value" class="shop-container__filter--input" min="20" max="1000" value="1000">
 
           <div class="shop-container__filter--info">
-            Price: $20 - $<span class="value"> <? if (isset($_POST['filter-btn'])) echo $_POST['filter-value']; else echo 20; ?> </span>
-            <button class="shop-container__filter--submit float-end" type="submit" name="filter-btn">
-              filter
-            </button>
+            Price: $20 - $<span class="value">20</span>
           </div>
         </div>
-      </form>
+      </div>
       <div class="shop-container__category">
         <h2 class="shop-container__category--title">Categories</h2>
         <a href="" class="shop-container__category--link d-block">Accessories</a>

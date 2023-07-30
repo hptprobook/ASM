@@ -1,6 +1,8 @@
 <?
 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 require '../../libs/DBDriver.php';
 require '../../libs/Validate.php';
 use PHPMailer\PHPMailer\PHPMailer;

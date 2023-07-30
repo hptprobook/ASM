@@ -208,7 +208,7 @@
 }
 
 .shop-container__search--input {
-  width: calc(100% - 52px);
+  width: 100%;
   border: none;
   outline: none;
   background-color: #f8f8f8;

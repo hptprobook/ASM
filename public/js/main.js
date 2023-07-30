@@ -71,7 +71,117 @@ function showErrorToast(message) {
   });
 }
 
+function renderProductsOnPage(pageNumber, productList) {
+  const container = $(".shop-container__product .row");
+  container.empty();
+  const productsPerPage = 12;
+
+  var startIndex = (pageNumber - 1) * productsPerPage;
+  var endIndex = pageNumber * productsPerPage;
+
+  for (let i = startIndex; i < endIndex && i < productList.length; i++) {
+    const product = productList[i];
+
+    const productElement = $("<div></div>").addClass("col l-4");
+    const productContainer = $("<div></div>").addClass(
+      "shop-container__product--list"
+    );
+
+    const productImage = $("<div></div>").addClass(
+      "shop-container__product--img"
+    );
+    const image = $("<img>").attr("src", product.image_url).attr("alt", "");
+    const productLink = $("<a></a>")
+      .addClass("text-decoration-none")
+      .attr("href", `?mod=shop&act=detail&id=${product.product_id}`);
+    productLink.append(image);
+    productImage.append(productLink);
+
+    productContainer.append(productImage);
+
+    const productInfo = $("<div></div>").addClass(
+      "shop-container__product--info"
+    );
+
+    const productName = $("<h2></h2>")
+      .addClass("shop-container__product--name")
+      .text(product.name);
+
+    const priceAndRatingContainer = $("<div></div>").addClass(
+      "d-flex justify-content-between align-items-center"
+    );
+
+    const productPrice = $("<p></p>")
+      .addClass("shop-container__product--price")
+      .text(`$${product.price}`);
+
+    const productRating = $("<div></div>").addClass(
+      "shop-container__product--rate"
+    );
+
+    for (let j = 1; j <= 5; j++) {
+      const starIcon = $("<i></i>").addClass(
+        j <= product.rate ? "bi bi-star-fill" : "bi bi-star"
+      );
+      productRating.append(starIcon);
+    }
+
+    priceAndRatingContainer.append(productPrice);
+    priceAndRatingContainer.append(productRating);
+
+    productInfo.append(productName);
+    productInfo.append(priceAndRatingContainer);
+
+    productElement.append(productContainer);
+    productElement.append(productInfo);
+
+    container.append(productElement);
+  }
+}
+
+function renderPagination(productList) {
+  const productsPerPage = 12;
+  var currentPage = 1;
+
+  function updatePagination() {
+    const totalPages = Math.ceil(productList.length / productsPerPage);
+    const paginationContainer = $(".shop-container__product--pagination");
+    paginationContainer.empty();
+
+    for (let i = 1; i <= totalPages; i++) {
+      const pageLink = $("<a></a>").attr("href", "#").text(i);
+
+      if (i === currentPage) {
+        pageLink.addClass("active");
+      }
+
+      pageLink.on("click", function (event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+        currentPage = i;
+        renderProductsOnPage(currentPage, productList);
+        updatePagination(); // Gọi lại hàm updatePagination để cập nhật trạng thái của các liên kết phân trang
+      });
+
+      paginationContainer.append(pageLink);
+    }
+  }
+
+  renderProductsOnPage(currentPage, productList);
+  updatePagination();
+}
+
 $(document).ready(function () {
+  var inputRange = $(".shop-container__filter--input");
+  inputRange.on("input", function () {
+    var percentage =
+      ((inputRange.val() - inputRange.attr("min")) /
+        (inputRange.attr("max") - inputRange.attr("min"))) *
+      100;
+    inputRange.css("--thumb-percentage", percentage + "%");
+    var number = $(".shop-container__filter--info span");
+    number.text(inputRange.val());
+  });
+
   $("#cartTable").on("click", ".check-all-item", function () {
     var isChecked = $(this).prop("checked");
     $(this)
@@ -328,6 +438,31 @@ $(document).ready(function () {
         headerCartIcon.html(cartItem);
         headerCartCnt.text(cnt);
         showSuccessToast("Updated successfully!");
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      },
+    });
+  });
+
+  $(".cart-quantity-input").on("input", function () {
+    const quantity = $(this).val();
+    const productId = $(this).data("product-id");
+
+    $.ajax({
+      url: "./module/cart/update_simple.php",
+      method: "POST",
+      data: {
+        quantity: quantity,
+        product_id: productId,
+      },
+      dataType: "json",
+      success: function (data) {
+        const cartItemRow = $("tr[data-id='" + productId + "']");
+        const cartItemSubtotal = cartItemRow.find(".cart-item-subtotal");
+        $('.total-amount-cart').html(data.total_amount);
+        cartItemSubtotal.html('$' + data.subtotal);
       },
       error: function (xhr, ajaxOptions, thrownError) {
         console.log(xhr.status);
@@ -594,10 +729,10 @@ $(document).ready(function () {
     $(".top__connect--user").click();
   });
 
-  $('.new-password__form--close').click(function() {
+  $(".new-password__form--close").click(function () {
     $(".lost-password__overlay").removeClass("active");
     $(".top__connect--user").click();
-  })
+  });
 
   $(".lost-password__form").submit(function (e) {
     e.preventDefault();
@@ -612,51 +747,50 @@ $(document).ready(function () {
       },
       dataType: "json",
       success: function (data) {
+        console.log(typeof data);
         if (typeof data !== "object") {
           $(".lost-password__btn").css("display", "none");
           $(".lost-password__code--form").addClass("active");
           $("#lost-password__email").attr("readonly", "true");
 
-          $('.lost-password__code--btn').click(function(e) {
+          $(".lost-password__code--btn").click(function (e) {
             e.preventDefault();
-            var userCode = $('#lost-password__code--enter').val();
+            var userCode = $("#lost-password__code--enter").val();
             $.ajax({
               url: "./module/user/code-lost.php",
               method: "POST",
               data: {
-                'code': data,
-                'user_code': userCode
+                code: data,
+                user_code: userCode,
               },
               dataType: "json",
               success: function (newdata) {
-                if (newdata) {
-                  showSuccessToast('Correct code!');
+                if (typeof newdata !== "object") {
+                  showSuccessToast("Correct code!");
 
-                  $('.lost-password__form').addClass('hidden');
-                  $('.new-password__form').addClass('active');
+                  $(".lost-password__form").addClass("hidden");
+                  $(".new-password__form").addClass("active");
 
-                  $('.new-password__form').submit(function(e) {
+                  $(".new-password__form").submit(function (e) {
                     e.preventDefault();
-                    var changeNewPassword = $('#new-password__pass').val();
-                    var changeRenewPassword = $('#new-password__repass').val();
+                    var changeNewPassword = $("#new-password__pass").val();
+                    var changeRenewPassword = $("#new-password__repass").val();
 
                     $.ajax({
                       url: "./module/user/change-new-password.php",
                       method: "POST",
                       data: {
-                        'new-password': changeNewPassword,
-                        'renew-password': changeRenewPassword,
-                        'lost-password__email': email
+                        "new-password": changeNewPassword,
+                        "renew-password": changeRenewPassword,
+                        "lost-password__email": email,
                       },
                       dataType: "json",
                       success: function (data2) {
                         console.log(data2);
-                        if (data2) {
-
-                          showSuccessToast('Change password successfully!');
-                          $('.lost-password__overlay').removeClass('active');
+                        if (typeof data2 !== "object") {
+                          showSuccessToast("Change password successfully!");
+                          $(".lost-password__overlay").removeClass("active");
                           $(".top__connect--user").click();
-
                         } else {
                           for (var error in data2) {
                             var value = data2[error];
@@ -670,9 +804,7 @@ $(document).ready(function () {
                         console.log(thrownError);
                       },
                     });
-
                   });
-
                 } else {
                   for (var error in newdata) {
                     var value = newdata[error];
@@ -686,7 +818,6 @@ $(document).ready(function () {
                 console.log(thrownError);
               },
             });
-
           });
         } else {
           for (var error in data) {
@@ -694,6 +825,111 @@ $(document).ready(function () {
             showErrorToast(value);
             break;
           }
+        }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      },
+    });
+  });
+
+  // Search, Find, Filter products
+  $(".shop-container__heading--select").change(function (e) {
+    var sortValue = $(".shop-container__heading--select").val();
+    var searchValue = $(".shop-container__search--input").val();
+    var filterValue = $(".shop-container__filter--input").val();
+    var catId = $(".shop-container__product .row").data("id") ?? null;
+
+    $.ajax({
+      url: "./module/shop/handle.php",
+      method: "POST",
+      data: {
+        sortValue: sortValue,
+        searchValue: searchValue,
+        filterValue: filterValue,
+        cat_id: catId,
+      },
+      dataType: "json",
+      success: function (data) {
+        console.log(data);
+        if (data.length > 0) {
+          showSuccessToast("Successful processing!");
+          const productsPerPage = 12;
+          var currentPage = 1;
+
+          renderProductsOnPage(currentPage, data);
+          renderPagination(data);
+        } else {
+          showErrorToast("Error!");
+        }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      },
+    });
+  });
+
+  $(".shop-container__search--input").on("input", function (e) {
+    var sortValue = $(".shop-container__heading--select").val();
+    var searchValue = $(".shop-container__search--input").val();
+    var filterValue = $(".shop-container__filter--input").val();
+    var catId = $(".shop-container__product .row").data("id") ?? null;
+
+    $.ajax({
+      url: "./module/shop/handle.php",
+      method: "POST",
+      data: {
+        sortValue: sortValue,
+        searchValue: searchValue,
+        filterValue: filterValue,
+        cat_id: catId,
+      },
+      dataType: "json",
+      success: function (data) {
+        if (data.length > 0) {
+          const productsPerPage = 12;
+          var currentPage = 1;
+
+          renderProductsOnPage(currentPage, data);
+          renderPagination(data);
+        } else {
+          showErrorToast("Not found!");
+        }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        console.log(xhr.status);
+        console.log(thrownError);
+      },
+    });
+  });
+
+  $(".shop-container__filter--input").on("input", function (e) {
+    var sortValue = $(".shop-container__heading--select").val();
+    var searchValue = $(".shop-container__search--input").val();
+    var filterValue = $(".shop-container__filter--input").val();
+    var catId = $(".shop-container__product .row").data("id") ?? null;
+
+    $.ajax({
+      url: "./module/shop/handle.php",
+      method: "POST",
+      data: {
+        sortValue: sortValue,
+        searchValue: searchValue,
+        filterValue: filterValue,
+        cat_id: catId,
+      },
+      dataType: "json",
+      success: function (data) {
+        if (data.length > 0) {
+          const productsPerPage = 12;
+          var currentPage = 1;
+
+          renderProductsOnPage(currentPage, data);
+          renderPagination(data);
+        } else {
+          showErrorToast("Not found!");
         }
       },
       error: function (xhr, ajaxOptions, thrownError) {

@@ -63,15 +63,15 @@ $orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $users['
 
             ?>
 
-            <tr style="height: 136px;border-bottom:1px solid #dedcdc;">
+            <tr style="height: 136px;border-bottom:1px solid #dedcdc;" data-id="<? echo $cart_item['product_id'] ?>">
               <td><input type="checkbox" name="selected[]" value="<? echo $cart_item['id'] ?>"></td>
-              <td><? echo $product['name'] ?></td>
-              <td><img src="<? echo $product['image_url'] ?>" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></td>
+              <td><a class="cart__product--name" href="?mod=shop&act=detail&id=<? echo $cart_item['product_id'] ?>"><? echo $product['name'] ?></a></td>
+              <td><a href="?mod=shop&act=detail&id=<? echo $cart_item['product_id'] ?>"><img src="<? echo $product['image_url'] ?>" alt="" style="width: 90px;height:90px;object-fit:cover;margin-right:12px;"></a></td>
               <td>$<? echo $product['price'] ?> </td>
               <td>
-                <input class="cart-quantity-input" type="number" min="1" value="<? echo $cart_item['quantity'] ?>" name="qty[]">
+                <input data-product-id="<? echo $cart_item['product_id'] ?>" class="cart-quantity-input" type="number" min="1" value="<? echo $cart_item['quantity'] ?>" name="qty[]">
               </td>
-              <td>$<? echo $cart_item['subtotal'] ?> </td>
+              <td class="cart-item-subtotal" >$<? echo $cart_item['subtotal'] ?> </td>
             </tr>
 
           <? } ?>
@@ -126,6 +126,14 @@ $orders = $database->get_row('SELECT * FROM orders WHERE user_id = "' . $users['
     .checkout-btn {
       transform: translateY(-23px);
       padding-top: 2px;
+    }
+    .cart__product--name {
+      text-decoration: none;
+      color: #212121;
+      font-weight: 500;
+    }
+    .cart__product--name:hover {
+      color: #3fd0d4;
     }
     .cart-checkout a:hover,
     .update-cart-btn:hover,

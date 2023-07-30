@@ -60,7 +60,7 @@ if (isset($_POST['checkout-btn'])) {
 
 
     // header('Location: ?mod=user&act=order&is_checked_out=true');
-  } else echo 'haha';
+  }
 
 }
 ?>
@@ -93,22 +93,22 @@ if (isset($_POST['checkout-btn'])) {
 
           <div class="form-group">
             <label for="checkout-fullname">Full name ...</label>
-            <input readonly type="text" name="checkout-fullname" id="checkout-fullname" class="checkout-form__input" value="<? echo $user_info['name'] ?>">
+            <input type="text" name="checkout-fullname" id="checkout-fullname" class="checkout-form__input" value="<? echo $user_info['name'] ?>">
             <span class="form-message"><? echo formError('fullname') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-email">Email ...</label>
-            <input readonly type="text" name="checkout-email" id="checkout-email" class="checkout-form__input" value="<? echo $user_info['email'] ?>">
+            <input type="text" name="checkout-email" id="checkout-email" class="checkout-form__input" value="<? echo $user_info['email'] ?>">
             <span class="form-message"><? echo formError('email') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-address">Address ...</label>
-            <input readonly type="text" name="checkout-address" id="checkout-address" class="checkout-form__input" value="<? echo $user_info['address'] ?>">
+            <input type="text" name="checkout-address" id="checkout-address" class="checkout-form__input" value="<? echo $user_info['address'] ?>">
             <span class="form-message"><? echo formError('address') ?></span>
           </div>
           <div class="form-group">
             <label for="checkout-phone">Phone ...</label>
-            <input readonly type="text" name="checkout-phone" id="checkout-phone" class="checkout-form__input" value="<? echo $user_info['phone'] ?>">
+            <input type="text" name="checkout-phone" id="checkout-phone" class="checkout-form__input" value="<? echo $user_info['phone'] ?>">
             <span class="form-message"><? echo formError('phone') ?></span>
           </div>
           <div class="form-group">
@@ -152,9 +152,6 @@ if (isset($_POST['checkout-btn'])) {
             <p>Total Amount: $<? echo $total_checkout ?></p>
             <button
               type="submit"
-              <?
-              if (empty($user_info['name']) || empty($user_info['address']) || empty($user_info['phone'])) echo 'disabled';
-              ?>
               name="checkout-btn" class="checkout-btn float-end" id="checkout-final-btn">CHECK OUT</button>
           </div>
 

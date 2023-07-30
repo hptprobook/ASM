@@ -13,7 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 require '../../libs/PHPMailer/src/Exception.php';
 require '../../libs/PHPMailer/src/SMTP.php';
 require '../../libs/PHPMailer/src/PHPMailer.php';
-$user_info = $database->get_row('SELECT * FROM users WHERE email = "' . $_POST['lost-password__email'] . '"');
+$user_info = $database->get_row('SELECT * FROM users WHERE email = "' . $_POST['lost-password__email'] . '"') ? $database->get_row('SELECT * FROM users WHERE email = "' . $_POST['lost-password__email'] . '"') : NULL;
 $email = $_POST['lost-password__email'];
 $error = array();
 
@@ -21,7 +21,7 @@ if (empty($email)) $error['empty'] = 'Email is not be empty!';
 else {
   if (!is_email($email)) $error['valid'] = 'Email address does not exist!';
   else {
-    if ($email !== $user_info['email']) $error['email'] = 'Email address already exists!';
+    if (empty($user_info)) $error['email'] = 'Email address already exists!';
   }
 }
 

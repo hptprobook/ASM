@@ -13,6 +13,7 @@ $products_list = $admin->get_list("SELECT * FROM products");
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
+          <th><input type="checkbox" class="list-product-checkall"></th>
           <th>ID</th>
           <th>Tên sản phẩm</th>
           <th>Đánh giá</th>
@@ -27,6 +28,7 @@ $products_list = $admin->get_list("SELECT * FROM products");
 
       <? foreach ($products_list as $product) { ?>
         <tr>
+          <th><input type="checkbox" class="list-product-checkbox" value="selected[]"></th>
           <td><? echo $product['product_id'] ?></td>
           <td><? echo $product['name'] ?></td>
           <td><? echo $product['rate'] ?></td>
@@ -45,6 +47,9 @@ $products_list = $admin->get_list("SELECT * FROM products");
 
       </tbody>
     </table>
+
+    <a href="" class="btn btn-warning my-2">Xoá nhiều</a>
+    <a href="" class="btn btn-danger my-2">Xoá tất cả</a>
   </div>
 
 

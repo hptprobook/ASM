@@ -1,14 +1,8 @@
-- Những lỗi còn lại của dự án này:
-
-* Trang chính
-  + Cho phép người dùng nhập thông tin giao hàng trong trang checkout
-  + [Nếu được]Render totalPrice và totalAmount khi tăng số lượng sản phẩm ở giỏ hàng
-  + Click vào tên sản phẩm thì qua trang chi tiết sản phẩm đó
-  + Xử lí AJAX khi thực hiện chức năng tìm kiếm, sắp xếp và lọc sản phẩm
-  + Xử lí chức năng tìm kiếm, sắp xếp, lọc sản phẩm trùng lên nhau
-  + Xử lý uploads tên file trùng
+- Bug:
 
 * Trang admin
+
+  + Xử lý uploads tên file trùng
   + Xây dựng chức năng xoá tất cả, xoá nhiều
   + Hiển thị hình ảnh sản phẩm
   + Đổi mật khẩu tài khoản admin

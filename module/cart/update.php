@@ -1,5 +1,7 @@
 <?
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 require '../../libs/DBDriver.php';
 require '../../libs/Cart.php';
 require '../../libs/User.php';
