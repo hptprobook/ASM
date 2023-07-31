@@ -35,6 +35,13 @@ if (isset($_POST['add_product-btn'])) {
   if (empty($product_code)) $error['product_code'] = $empty;
   else {
     if (strlen($product_code) > 30) $error['product_code'] = 'Mã sản phẩm quá dài!';
+    else {
+      $product_code_in_db = $admin->get_row('SELECT * FROM products WHERE product_code = "' . $product_code . '"');
+
+      if (!empty($product_code_in_db)) {
+        $error['product_code'] = 'Mã sản phẩm trùng';
+      }
+    }
   }
 
   if (empty($product_short_desc)) $error['short_desc'] = $empty;

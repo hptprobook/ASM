@@ -3,7 +3,8 @@
 $id = $_GET['id'];
 $admin->remove('products', 'product_id="' . $id . '"');
 echo '<div class="alert alert-success">Xoá thành công, đang chuyển hướng ... </div>';
-header("Refresh: 2; URL=?mod=up_product&act=list");
+if (isset($_GET['cat_id'])) header('Refresh: 1; URL=?mod=category&act=detail&id=' . $_GET['cat_id'] . '');
+else header("Refresh: 2; URL=?mod=up_product&act=list");
 ?>
 
 <!DOCTYPE html>

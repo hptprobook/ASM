@@ -52,7 +52,8 @@ if (isset($_POST['edit_product-btn'])) {
   if (empty($error)) {
     echo '<div class="alert alert-success text-center">Cập nhật thành công</div>';
     $admin->update('products', $data, 'product_id="' . $id . '"');
-    header("Refresh: 1; URL=?mod=up_product&act=list");
+    if (isset($_GET['cat_id'])) header('Refresh: 1; URL=?mod=category&act=detail&id=' . $_GET['cat_id'] . '');
+    else header("Refresh: 1; URL=?mod=up_product&act=list");
   } else {
     echo '<div class="alert alert-danger text-center">Thất bại</div>';
   }

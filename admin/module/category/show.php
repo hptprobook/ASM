@@ -20,7 +20,7 @@ $cat_list = $admin->get_list('SELECT * FROM category');
       <? foreach ($cat_list as $cat_item) { ?>
       <tr>
         <td><? echo $cat_item['cat_id'] ?></td>
-        <td><? echo $cat_item['name'] ?></td>
+        <td><a href="?mod=category&act=detail&id=<? echo $cat_item['cat_id'] ?>"><? echo $cat_item['name'] ?></a></td>
         <td>
           <a class="btn btn-info" href="?mod=category&act=edit&cat_id=<? echo $cat_item['cat_id'] ?>" title="Sửa"><i class="bi bi-pencil-square"></i></a>
           <a class="btn btn-danger" href="?mod=category&act=delete&cat_id=<? echo $cat_item['cat_id'] ?>" title="Xoá"><i class="bi bi-trash3-fill"></i></a>
