@@ -1,3 +1,53 @@
+.report {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.report__success,
+.report__revenue,
+.report__cancel,
+.report__processing {
+  background-color: #007bff;
+  color: #fff;
+  padding: 24px 12px;
+  border-radius: 12px;
+}
+
+.report__revenue {
+  background-color: #02cd09;
+}
+
+.report__cancel {
+  background-color: #636363;
+}
+
+.report__processing {
+  background-color: #ea2503;
+}
+
+.report__success h3,
+.report__revenue h3,
+.report__cancel h3,
+.report__processing h3 {
+  font-size: 24px;
+}
+
+.report__success span,
+.report__revenue span,
+.report__cancel span,
+.report__processing span {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.report__success p,
+.report__revenue p,
+.report__cancel p,
+.report__processing p {
+  margin-top: 12px;
+}
+
 .nav__sidebar {
   height: 100vh;
   position: fixed;

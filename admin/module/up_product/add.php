@@ -88,13 +88,13 @@ if (isset($_POST['add_product-btn'])) {
   }
 
   $data = array(
-    'name' => $product_name,
+    'name' => htmlspecialchars($product_name),
     'rate' => $product_rate,
     'price' => $product_price,
     'image_url' => $upload_file,
     'product_code' => $product_code,
-    'short_desc' => $product_short_desc,
-    'detail' => $product_detail,
+    'short_desc' => htmlspecialchars($product_short_desc),
+    'detail' => htmlspecialchars($product_detail),
     'cat_id' => $cat_id,
   );
 

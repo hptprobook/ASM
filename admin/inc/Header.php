@@ -29,6 +29,12 @@
             <h4 class="text-center text-white">Hệ thống quản trị</h4>
             <ul class="nav flex-column mt-5">
               <li class="nav-item">
+                <a class="nav-link text-white" href="?mod=report">
+                  <i class="bi bi-flag"></i>
+                  Báo cáo thống kê
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link text-white" href="?mod=account">
                   <i class="bi bi-person-vcard"></i>
                   Quản lí tài khoản
@@ -139,3 +145,40 @@
               </a>
             </div>
           </header>
+          <section class="container report">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="report__success">
+                  <h3>Đơn hàng thành công</h3>
+                  <hr>
+                  <span>1.000</span>
+                  <p>Tổng số đơn hàng thành công</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="report__processing">
+                  <h3 class="">Đơn hàng đang xử lý</h3>
+                  <hr>
+                  <span>3</span>
+                  <p>Số đơn hàng đang xử lý</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="report__revenue">
+                  <h3>Tổng doanh thu</h3>
+                  <hr>
+                  <span>$1.000.000</span>
+                  <p>Tổng doanh thu</p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="report__cancel">
+                  <h3>Đơn hàng bị huỷ</h3>
+                  <hr>
+                  <span>120</span>
+                  <p>Tổng số đơn hàng bị huỷ</p>
+                </div>
+              </div>
+            </div>
+          </section>
+

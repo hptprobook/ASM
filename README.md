@@ -1,0 +1,6 @@
+ - Đăng nhập, đăng ký
+ - Đổi mật khẩu, profile, lấy lại mật khẩu
+ - Checkout, theo dõi đơn hàng, huỷ đơn hàng
+ - Thêm, sửa, xoá dashboard(tài khoản, danh mục, sản phẩm, đơn hàng), trạng thái đơn hàng
+ - CURD giỏ hàng, xoá nhiều, AJAX
+ - Tìm kiếm, sắp xếp, lọc AJAX
