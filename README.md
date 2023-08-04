@@ -4,4 +4,4 @@
  - Thêm, sửa, xoá dashboard(tài khoản, danh mục, sản phẩm, đơn hàng), trạng thái đơn hàng
  - CURD giỏ hàng, xoá nhiều, AJAX
  - Tìm kiếm, sắp xếp, lọc AJAX
- - Thống kê
+ - Thống kê 

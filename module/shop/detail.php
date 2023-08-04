@@ -4,6 +4,7 @@ $template->getHeader();
 $id = $_GET['id'];
 
 $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "' . $id . '"');
+$product_img_info = $database->get_list('SELECT * FROM pro_more WHERE product_code = "' . $product_info['product_code'] . '"');
 
 ?>
 
@@ -11,6 +12,7 @@ $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "'
   .login--notify {
     text-decoration: underline;
   }
+
   .login--notify:hover {
     color: #888;
     cursor: pointer;
@@ -29,9 +31,18 @@ $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "'
 <section class="shop-container grid wide">
   <div class="row">
     <div class="col l-5">
-      <div class="shop-container__img">
-        <img src="<? echo $product_info['image_url'] ?>" alt="">
+      <div class="swiper detail-product">
+        <div class="swiper-wrapper">
+          <? foreach ($product_img_info as $img_url) { ?>
+            <div class="shop-container__img swiper-slide">
+              <img src="<? echo $img_url['img_url'] ?>" alt="">
+            </div>
+          <? } ?>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
       </div>
+
     </div>
 
     <div class="col l-7">
@@ -54,7 +65,7 @@ $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "'
         <p class="shop_container__info--short-desc pt-4"><? echo $product_info['short_desc'] ?></p>
         <form class="shop-container__form">
           <? if (!$user->is_login()) { ?>
-          <input type="hidden" name="is-login" value="1" class="shop-container__status--account">
+            <input type="hidden" name="is-login" value="1" class="shop-container__status--account">
           <? } ?>
           <input type="number" name="quantity" value="1" min="1" class="shop-container__quantity">
           <input type="hidden" name="product_id" value="<? echo $id ?>" class="shop-container__id">
@@ -69,5 +80,6 @@ $product_info = $database->get_row('SELECT * FROM products WHERE product_id = "'
     <? echo $product_info['detail'] ?>
   </div>
 </section>
+
 
 <? $template->getFooter(); ?>

@@ -1,13 +1,19 @@
 <?
 
+$report = $database->get_row('SELECT * FROM report');
+
 if (isset($_POST['cancel-btn'])) {
   $reason = $_POST['reason'];
   $id = $_GET['id'];
+  $order_canceled = $report['order_canceled'];
+  $order_processing = $report['order_processing'];
   $data = array(
     'status' => 3,
     'note' => $reason
   );
   if ($database->update('user_cart_comp', $data, 'id = "' . $id . '"')) {
+    $database->update('report', array('order_canceled' => $order_canceled + 1), 'id = 1');
+    $database->update('report', array('order_processing' => $order_processing - 1), 'id = 1');
     header('Refresh: 0.25; URL= ?mod=user&act=order');
     $is_cancel = true;
   };
@@ -51,7 +57,7 @@ if (isset($_POST['cancel-btn'])) {
     <div class="form-group">
       <input type="text" name="reason" class="reason__input">
     </div>
-    <button type="submit" name="cancel-btn" class="btn btn-primary my-3">Cancel</button>
+    <button type="submit" name="cancel-btn" class="btn btn-primary my-3">SUBMIT</button>
   </form>
 </section>
 

@@ -1,3 +1,5 @@
+
+
 <?
 
 $cat_list = $admin->get_list('SELECT * FROM category');
@@ -10,8 +12,13 @@ if (isset($_POST['add_product-btn'])) {
   $product_short_desc = $_POST['short_desc'];
   $product_detail = $_POST['detail'];
   $cat_id = $_POST['cat_id'];
+  $image_url = $_FILES['image_url'];
   $error = array();
   $empty = 'Trường này không được để trống';
+  $upload_dir = "uploads/";
+  $upload_file = $upload_dir . basename($image_url['name']);
+  $type_img = array('jpg', 'png', 'gif', 'jpeg');
+  $extension_file = pathinfo(basename($image_url['name']), PATHINFO_EXTENSION);
 
   if (empty($product_name)) $error['name'] = $empty;
   else {
@@ -48,76 +55,55 @@ if (isset($_POST['add_product-btn'])) {
     if (strlen($product_detail) < 20) $error['detail'] = 'Chi tiết sản phẩm quá ngắn!';
   }
 
-  $upload_dir = "uploads/";
-  $type_img = array('jpg', 'png', 'gif', 'jpeg');
-  $images = $_FILES['image_url'];
-  if (count($_FILES['image_url']['tmp_name']) > 4) {
-    $error['image_url'] = 'Bạn chỉ có thể tải lên tối đa 4 ảnh.';
-  }
+  if ($image_url['error']) $error['image_url'] = $empty;
 
-  foreach ($images['tmp_name'] as $key => $tmp_name) {
-    $image_url = $images['name'][$key];
 
-    if ($images['error'][$key] !== 0) {
-      $error['image_url'] = 'Upload file thất bại';
-    } else {
-      $extension_file = pathinfo($image_url, PATHINFO_EXTENSION);
-      $upload_file = $upload_dir . basename($image_url);
+  if (!in_array($extension_file, $type_img)) $error['image'] = 'Không đúng định dạng hình ảnh';
+  else {
+    if ($image_url['size'] >= 1048576) $error['image'] = "Kích thước ảnh không vượt quá 20MB";
+    else {
+      if (file_exists('../' . $upload_file . '')) {
+        $fileName = pathinfo($image_url['name'], PATHINFO_FILENAME);
+        $newFileName = $fileName . '-Copy';
 
-      if (!in_array($extension_file, $type_img)) {
-        $error['image'] = 'Không đúng định dạng hình ảnh';
-      } elseif ($images['size'][$key] >= 1048576) {
-        $error['image'] = "Kích thước ảnh không vượt quá 1MB";
-      } else {
-        if (empty($error)) {
-          if (file_exists('../' . $upload_file)) {
-            $fileName = pathinfo($image_url, PATHINFO_FILENAME);
-            $newFileName = $fileName . '-Copy';
-            $newUploadFile = $upload_dir . $newFileName . '.' . $extension_file;
-            $cnt = 1;
+        echo $fileName, $newFileName;
 
-            while (file_exists('../' . $newUploadFile)) {
-              $fileName = pathinfo($image_url, PATHINFO_FILENAME);
-              $newFileName = $fileName . '-Copy(' . $cnt . ')';
-              $newUploadFile = $upload_dir . $newFileName . '.' . $extension_file;
-              $cnt++;
-            }
+        $newUploadFile = $upload_dir . $newFileName . '.' . $extension_file;
 
-            $upload_file = $newUploadFile;
-          }
+        $cnt = 1;
 
-          $isUploads = move_uploaded_file($tmp_name, "../$upload_file");
+        while (file_exists($newUploadFile)) {
+          $fileName = pathinfo($file['name'], PATHINFO_FILENAME);
+          $newFileName = $fileName . '-Copy(' . $cnt . ')';
 
-          if (!$isUploads) {
-            $error['image_url'] = 'Upload file thất bại';
-          } else {
-            if (empty($error)) {
-              $admin->insert('pro_more', array(
-                'img_url' => $upload_file, // Lưu URL của ảnh
-                'product_code' => $product_code,
-              ));
-            }
-          }
+          $newUploadFile = $upload_dir . $newFileName . '.' . $extension_file;
+          $cnt++;
         }
+
+        $upload_file = $newUploadFile;
       }
+      $isUploads = move_uploaded_file($image_url['tmp_name'], "../$upload_file");
+      if (!$isUploads) $error['image_url'] = 'Upload file thất bại';
     }
   }
 
+  $data = array(
+    'name' => htmlspecialchars($product_name),
+    'rate' => $product_rate,
+    'price' => $product_price,
+    'image_url' => $upload_file,
+    'product_code' => $product_code,
+    'short_desc' => htmlspecialchars($product_short_desc),
+    'detail' => htmlspecialchars($product_detail),
+    'cat_id' => $cat_id,
+  );
+
   if (empty($error)) {
-    $data = array(
-      'name' => htmlspecialchars($product_name),
-      'rate' => $product_rate,
-      'price' => $product_price,
-      'image_url' => $upload_file,
-      'product_code' => $product_code,
-      'short_desc' => htmlspecialchars($product_short_desc),
-      'detail' => htmlspecialchars($product_detail),
-      'cat_id' => $cat_id,
-    );
     echo '<div class="alert alert-success text-center">Thêm thành công</div>';
     $admin->insert('products', $data);
     header("Refresh: 1; URL=?mod=up_product&act=add");
   }
+
 }
 
 ?>
@@ -149,7 +135,7 @@ if (isset($_POST['add_product-btn'])) {
 
     <div class="form-group mt-2">
       <label for="image" class="form-label">Ảnh sản phẩm</label>
-      <input multiple class="form-control" type="file" name="image_url[]" id="image">
+      <input multiple class="form-control" type="file" name="image_url" id="image">
       <span class="form-message text-danger"><? echo formError('image_url') ?></span>
     </div>
 
@@ -164,7 +150,7 @@ if (isset($_POST['add_product-btn'])) {
       <select class="form-select" id="mySelect" name="cat_id">
         <? foreach ($cat_list as $cat_item) { ?>
 
-          <option value="<? echo $cat_item['cat_id'] ?>">Product <? echo $cat_item['name'] ?></option>
+        <option value="<? echo $cat_item['cat_id'] ?>">Product <? echo $cat_item['name'] ?></option>
         <? } ?>
       </select>
     </div>

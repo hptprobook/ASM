@@ -4,6 +4,7 @@
 
 $user_id = $user->get_user_id($_SESSION['username']);
 $user_info = $database->get_row('SELECT * FROM users WHERE user_id = "' . $user_id . '"');
+$report = $database->get_row('SELECT * FROM report');
 $user_carts = array();
 if (isset($_SESSION['selected_ids'])) {
   $selectedIds = $_SESSION['selected_ids'];
@@ -49,6 +50,8 @@ if (isset($_POST['checkout-btn'])) {
         'status' => -1
       );
       $database->insert('user_cart_comp', $data);
+      $order_processing = $report['order_processing'];
+      $database->update('report', array('order_processing' => $order_processing + 1), 'id = 1');
       $is_checked_out = true;
       header('Location: ?mod=cart&act=send-mail&ship_name="'.$full_name.'"&ship_address="'.$address.'"&ship_email="'.$email.'"&ship_date="'.$current_date.'"');
       $database->remove('user_cart', 'id = "' . $item['id'] . '"');
@@ -134,14 +137,14 @@ if (isset($_POST['checkout-btn'])) {
             <? foreach ($user_carts as $cart_item) { ?>
 
               <tr>
-                <td><? echo $cart_item['name'] ?></td>
-                <td>x <? echo $cart_item['quantity'] ?></td>
-                <td style="text-align: end;">$<? echo $cart_item['subtotal'] ?></td>
+                <td><? if (isset($cart_item['name'])) echo $cart_item['name'] ?></td>
+                <td>x <? if (isset($cart_item['quantity'])) echo $cart_item['quantity'] ?></td>
+                <td style="text-align: end;">$<? if (isset($cart_item['subtotal'])) echo $cart_item['subtotal'] ?></td>
               </tr>
               <?
 
 
-              $total_checkout += $cart_item['subtotal'];
+              $total_checkout += isset($cart_item['subtotal']) ? $cart_item['subtotal'] : 0;
 
               ?>
             <? } ?>
@@ -152,6 +155,7 @@ if (isset($_POST['checkout-btn'])) {
             <p>Total Amount: $<? echo $total_checkout ?></p>
             <button
               type="submit"
+              <? if (empty($user_carts) && !isset($user_carts)) echo 'default' ?> 
               name="checkout-btn" class="checkout-btn float-end" id="checkout-final-btn">CHECK OUT</button>
           </div>
 

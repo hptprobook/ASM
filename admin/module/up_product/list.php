@@ -33,7 +33,7 @@ $products_list = $admin->get_list("SELECT * FROM products");
           <td><? echo $product['name'] ?></td>
           <td><? echo $product['rate'] ?></td>
           <td><? echo $product['price'] ?></td>
-          <td><img src="../<? echo $product['image_url'] ?>" style="width: 50px; height: 50px; object-fit: cover;" alt=""></td>
+          <td><a href="?mod=up_product&act=img_detail&id=<? echo $product['product_id'] ?>"><img src="../<? echo $product['image_url'] ?>" style="width: 50px; height: 50px; object-fit: cover;" alt=""></a></td>
           <td><? echo $product['product_code'] ?></td>
           <td>
             <a href=""><? echo $product['cat_id'] ?></a>
