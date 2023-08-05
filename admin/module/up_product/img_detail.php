@@ -23,7 +23,7 @@ $product_more = $admin->get_list('SELECT * FROM pro_more WHERE product_code = "'
             <td><input type="text" name="img_title" value="<? echo $img['img_title'];?>" class="form-control"></td>
             <td><input type="text" name="img_alt" value="<? echo $img['img_alt'];?>" class="form-control"></td>
             <td>
-              <button type="submit" class="btn btn-success" title="Lưu"><i class="bi bi-save"></i></button>
+              <button type="submit" name="img_submit" class="btn btn-success" title="Lưu"><i class="bi bi-save"></i></button>
             </td>
           </tr>
           <input type="hidden" name="id" value="<? echo $img['id'] ?>">

@@ -35,7 +35,7 @@ $product_img_info = $database->get_list('SELECT * FROM pro_more WHERE product_co
         <div class="swiper-wrapper">
           <? foreach ($product_img_info as $img_url) { ?>
             <div class="shop-container__img swiper-slide">
-              <img src="<? echo $img_url['img_url'] ?>" alt="">
+              <img title="<? echo $img_url['img_title'] ?>" alt="<? echo $img_url['img_alt'] ?>" src="<? echo $img_url['img_url'] ?>" alt="">
             </div>
           <? } ?>
         </div>
