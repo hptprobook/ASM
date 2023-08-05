@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 require 'libs/PHPMailer/src/Exception.php';
 require 'libs/PHPMailer/src/SMTP.php';
 require 'libs/PHPMailer/src/PHPMailer.php';
+require 'vendor/autoload.php';
 
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
@@ -46,11 +47,26 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Thanks for ordering!';
-    $mail->Body    = 'Hello '.$ship_name.'. We have received your order placed on '.$ship_date.', sent to address '.$ship_address.'. Thank you for trusting us';
-    $mail->AltBody = 'Hello '.$ship_name.'. We have received your order placed on '.$ship_date.', sent to address '.$ship_address.'. Thank you for trusting us';
+    $mail->Body    = 'Hello ' . $ship_name . '. We have received your order placed on ' . $ship_date . ', sent to address ' . $ship_address . '. Thank you for trusting us';
+    $mail->AltBody = 'Hello ' . $ship_name . '. We have received your order placed on ' . $ship_date . ', sent to address ' . $ship_address . '. Thank you for trusting us';
 
     $mail->send();
-    echo '<div class="alert alert-primary text-center">Order Success<br>Redirecting...</div>';
+
+    $options = array(
+        'cluster' => 'ap1',
+        'useTLS' => true
+    );
+    $pusher = new Pusher\Pusher(
+        'ebd4b083a7bb57c525d6',
+        '79eab78080c69e751ef5',
+        '1646892',
+        $options
+    );
+
+    $data['message'] = 'hello world';
+    $pusher->trigger('my-channel', 'my-event', $data);
+
+    $data = array('message' => 'Có đơn hàng mới!'); // Nội dung thông báo
     header('Location: ?mod=user&act=order&is_checked_out=true');
 } catch (Exception $e) {
     echo "<div class='alert alert-error text-center'>Order Failure. Mailer Error: {$mail->ErrorInfo}</div>";

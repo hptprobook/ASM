@@ -1,6 +1,6 @@
 <? getHeader(); ?>
 
-<? 
+<?
 
 $report = $admin->get_row('SELECT * FROM report');
 $user_cart_comp = $admin->get_list('SELECT * FROM user_cart_comp WHERE `status` = 2');
@@ -17,7 +17,7 @@ $admin->update('report', array('revenue' => $revenue), 'id = 1');
   <div class="row">
     <div class="col-md-3">
       <div class="report__success">
-        <h3>Đơn hàng thành công</h3>
+        <h3><a class="text-white text-decoration-none" href="?mod=report&act=chart_success">Đơn hàng thành công</a></h3>
         <hr>
         <span><? echo $report['order_success'] ?></span>
         <p>Tổng số đơn hàng thành công</p>
@@ -33,7 +33,7 @@ $admin->update('report', array('revenue' => $revenue), 'id = 1');
     </div>
     <div class="col-md-3">
       <div class="report__revenue">
-        <h3>Tổng doanh thu</h3>
+        <h3><a class="text-white text-decoration-none" href="?mod=report&act=chart_revenue">Tổng doanh thu</a></h3>
         <hr>
         <span>$<? echo $report['revenue'] ?></span>
         <p>Tổng doanh thu</p>
@@ -41,7 +41,7 @@ $admin->update('report', array('revenue' => $revenue), 'id = 1');
     </div>
     <div class="col-md-3">
       <div class="report__cancel">
-        <h3>Đơn hàng bị huỷ</h3>
+        <h3><a class="text-white text-decoration-none" href="?mod=report&act=chart_cancel">Đơn hàng bị huỷ</a></h3>
         <hr>
         <span><? echo $report['order_canceled'] ?></span>
         <p>Tổng số đơn hàng bị huỷ</p>
@@ -49,5 +49,7 @@ $admin->update('report', array('revenue' => $revenue), 'id = 1');
     </div>
   </div>
 </section>
+
+
 
 <? getFooter(); ?>

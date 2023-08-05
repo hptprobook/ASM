@@ -22,7 +22,3 @@ if (file_exists($path)) require $path;
 else require 'inc/404.php';
 
 ?>
-
-
-
-

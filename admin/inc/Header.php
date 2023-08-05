@@ -17,6 +17,7 @@
   <script src="./assets/js/jquery.min.js"></script>
   <script src="./assets/js/main.js"></script>
   <script src="./libs/ckeditor/ckeditor/ckeditor.js"></script>
+  <script src="../../node_modules/chart.js/dist/chart.js"></script>
 </head>
 
 <body>
@@ -130,7 +131,7 @@
                   </span></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">
-                    Liên hệ
+                    Chính
                   </a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">
