@@ -53,12 +53,12 @@ if (isset($_POST['checkout-btn'])) {
       $order_processing = $report['order_processing'];
       $database->update('report', array('order_processing' => $order_processing + 1), 'id = 1');
       $is_checked_out = true;
-      header('Location: ?mod=cart&act=send-mail&ship_name="'.$full_name.'"&ship_address="'.$address.'"&ship_email="'.$email.'"&ship_date="'.$current_date.'"');
       $database->remove('user_cart', 'id = "' . $item['id'] . '"');
       $cart->get_order($_SESSION['username']);
-
     }
-
+    $queryString = json_encode($user_carts);
+    header('Location: ?mod=cart&act=send-mail&user_carts='.$queryString.'&ship_name="'.$full_name.'"&ship_address="'.$address.'"&ship_email="'.$email.'"&ship_date="'.$current_date.'"');
+    
     // header('Location: ?mod=user&act=order&is_checked_out=true');
   }
 

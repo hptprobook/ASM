@@ -20,6 +20,12 @@ $ship_name = $_GET['ship_name'];
 $ship_address = $_GET['ship_address'];
 $ship_email = trim($_GET['ship_email'], '"');
 $ship_date = $_GET['ship_date'];
+$orders = json_decode($_GET['user_carts'], true);
+$total_amount = 0;
+
+foreach ($orders as $order) {
+    $total_amount += $order['subtotal'];
+}
 
 try {
     //Server settings
@@ -44,10 +50,39 @@ try {
     // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
     // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
-    //Content
+    // Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Thanks for ordering!';
-    $mail->Body    = 'Hello ' . $ship_name . '. We have received your order placed on ' . $ship_date . ', sent to address ' . $ship_address . '. Thank you for trusting us';
+    $mail->Body = '
+    <html>
+    <body>
+        <p>Hello ' . $ship_name . ',</p>
+        <p>We have received your order placed on ' . $ship_date . ', sent to address ' . $ship_address . '. Thank you for trusting us</p>
+        <h2>Order Details</h2>
+        <table border="1">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>SubTotal</th>
+            </tr>';
+
+    foreach ($orders as $item) {
+        $mail->Body .= '
+            <tr>
+                <td>' . $item['name'] . '</td>
+                <td>' . $item['quantity'] . '</td>
+                <td>$' . $item['price'] . '</td>
+                <td>$'. $item['subtotal']. '</td>
+            </tr>';
+    }
+
+    $mail->Body .= '
+        </table>
+        <p>Total: $'. $total_amount. '</p>
+        <p>Thank you!</p>
+    </body>
+    </html>';
     $mail->AltBody = 'Hello ' . $ship_name . '. We have received your order placed on ' . $ship_date . ', sent to address ' . $ship_address . '. Thank you for trusting us';
 
     $mail->send();

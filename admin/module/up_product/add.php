@@ -183,6 +183,12 @@ if (isset($_POST['add_product-btn'])) {
 
     <input type="submit" value="Thêm sản phẩm" name="add_product-btn" class="btn btn-warning my-4 btn-lg px-5">
   </form>
+
+  <form action="?mod=up_product&act=add-with-file" enctype="multipart/form-data" method="post" class="my-4"> 
+    Select Excel File to Upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload File" name="upload-file-submit">
+  </form>
 </section>
 
 

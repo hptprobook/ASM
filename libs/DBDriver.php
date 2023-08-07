@@ -43,7 +43,6 @@ class DB_Driver
     // Tạo câu truy vấn INSERT
     $sql = "INSERT INTO $table ($fieldList) VALUES ($valueList)";
 
-    // Thực thi câu truy vấn
     return mysqli_query($this->__conn, $sql);
   }
 
