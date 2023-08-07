@@ -3,11 +3,22 @@
 <?
 $products_list = $admin->get_list("SELECT * FROM products");
 
+if (isset($_POST['search_product-btn'])) {
+  $search_value = $_POST['search_product-input'];
+
+  $products_list = $admin->get_list('SELECT * FROM products WHERE `name` LIKE "%' . $search_value . '%"');
+}
+
 ?>
 
 <section style="min-height:500px">
 
   <h2 class="ps-3 pt-5 pb-2 text-center">Danh sách sản phẩm</h2>
+
+  <form action="" class="w-25 my-5 mx-3" method="post">
+    <input type="text" name="search_product-input" class="form-control" placeholder="Tên sản phẩm">
+    <button class="btn btn-info mt-2" type="submit" name="search_product-btn">Tìm kiếm</button>
+  </form>
 
   <form action="?mod=up_product&act=remove_multi" method="post" class="container">
     <table class="table table-striped table-bordered">
