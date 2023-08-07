@@ -913,7 +913,8 @@ $cart = $GLOBALS['cart'];
           </ul>
         </nav>
 
-        <div class="header__more d-flex text-black">
+        <div class="header__more d-flex text-black">      
+
           <div class="header__more--icon header__more--cart">
             <a
               class="text-decoration-none text-black header__more--cart-link"

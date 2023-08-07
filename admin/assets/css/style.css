@@ -1,3 +1,124 @@
+.notification-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 99999999999999;
+  display: none;
+}
+
+.notification-overlay.active {
+  display: block;
+}
+
+.notification {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 600px;
+  height: 400px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
+}
+
+.notification::-webkit-scrollbar {
+  display: none;
+}
+
+.notification-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.notification-item {
+  display: flex;
+  padding: 0 40px;
+  background-color: #c0c0c0;
+  border: .5px solid #575757be;
+}
+
+.notification-item.seen {
+  background-color: #fff;
+}
+
+.notification-item__icon {
+  font-size: 40px;
+  margin-right: 12px;
+  color: #696969;
+}
+
+.notification-item__text--subject {
+  font-size: 18px;
+  font-weight: 500;
+  color: #383838;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.notification-item__text--subject span {
+  margin-left: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #797979;
+}
+
+.notification-item__text--content {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8b8989;
+  margin-bottom: 0;
+}
+
+.new--notification-overlay,
+.cancel__notification--overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 99999999999999;
+}
+
+.new--notification-overlay.active,
+.cancel__notification--overlay.active {
+  display: block;
+}
+
+.new--notification,
+.cancel--notification {
+  width: 400px;
+  height: 180px;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new--notification-close,
+.cancel--notification-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
 .report {
   margin-top: 24px;
   margin-bottom: 24px;
@@ -87,6 +208,7 @@
 .header__handle--setting {
   text-decoration: none;
   color: #888;
+  position: relative;
 }
 
 .header__handle--setting:hover {
@@ -100,6 +222,16 @@
 
 .header__handle--logout:hover {
   color: #333;
+}
+
+.header__handle--setting span {
+  position: absolute;
+  top: -8px;
+  border-radius: 8px;
+  padding: 0 4px;
+  font-size: 12px;
+  right: 12px;
+  color: #fff;
 }
 
 .footer {
