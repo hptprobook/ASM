@@ -1,4 +1,4 @@
-<? header('Refresh: 0.7; URL=?mod=up_product&act=img_detail'); ?>
+<? header('Refresh: 0.7; URL=?mod=up_product&act=list'); ?>
 
 <? getHeader() ?>
 

@@ -1,6 +1,13 @@
 <?php
 
+$admin = new DB_Driver();
 
+$admin_notify = $admin->get_list('SELECT * FROM admin_notify ORDER BY id DESC');
+$admin_notify_seen = $admin->get_list('SELECT * FROM admin_notify WHERE `status` = 0');
+$cnt = 0;
+foreach ($admin_notify_seen as $value) {
+  $cnt++;
+}
 
 ?>
 
@@ -22,6 +29,50 @@
 
 <body>
   <div id="root">
+
+    <div class="notification-overlay">
+      <div class="notification">
+        <i class="bi bi-x notification-close"></i>
+        <h3 class="notification-title text-center my-4">Thông báo</h3>
+        <div class="notification-list">
+
+          <? foreach ($admin_notify as $notification) { ?>
+            <a href="?mod=order&act=main&notify_id=<? echo $notification['id'] ?>" class="text-decoration-none">
+              <div class="notification-item <? if ($notification['status'] == 1) echo 'seen' ?>">
+                <div class="notification-item__icon">
+                  <i class="bi bi-envelope<? if ($notification['status'] == 1) echo '-open' ?>"></i>
+                </div>
+                <div class="notification-item__text">
+                  <h2 class="notification-item__text--subject"><? echo $notification['subject'] ?> <span><? echo $notification['time'] ?></span> </h2>
+                  <p class="notification-item__text--content"><? echo $notification['content'] ?></p>
+                </div>
+              </div>
+            </a>
+          <? } ?>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="new--notification-overlay">
+      <div class="new--notification">
+        <i class="bi bi-x new--notification-close"></i>
+        <h3 class="new--notification-title text-center my-4">Thông báo</h3>
+        <div class="new--notification-list">Có đơn hàng mới, xem ở trong phần thông báo</div>
+        <a href="" class="btn btn-success mt-4">OK</a>
+      </div>
+    </div>
+
+    <div class="cancel__notification--overlay">
+      <div class="cancel--notification">
+        <i class="bi bi-x cancel--notification-close"></i>
+        <h3 class="cancel--notification-title text-center my-4">Thông báo</h3>
+        <div class="cancel--notification-list">Có đơn hàng bị hủy, xem ở thông báo</div>
+        <a href="" class="btn btn-success mt-4">OK</a>
+      </div>
+    </div>
+
+
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3 px-0 m-0" style="width:22.5%;">
@@ -79,10 +130,20 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link text-white" href="?mod=order&act=main">
+                <a class="nav-link text-white" href="?mod=order&act=success" data-bs-toggle="collapse" data-bs-target="#order" aria-expanded="false" aria-controls="order">
                   <i class="bi bi-bag-dash-fill"></i>
                   Đơn hàng
                 </a>
+                <div class="collapse ps-4" id="order">
+                  <a href="?mod=order&act=main" class="nav-link text-white">
+                    <i class="bi bi-card-checklist"></i>
+                    Đang xử lý
+                  </a>
+                  <a href="?mod=order&act=success" class="nav-link text-white">
+                    <i class="bi bi-card-checklist"></i>
+                    Đã xong
+                  </a>
+                </div>
               </li>
 
               <li class="nav-item">
@@ -105,38 +166,47 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end mt-3">
                   <li><a class="dropdown-item" href="#">
-                    <i class="bi bi-person-fill-gear"></i>
-                    Thông tin admin
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li>
+                      <i class="bi bi-person-fill-gear"></i>
+                      Thông tin admin
+                    </a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
                   <li><a class="dropdown-item" href="?mod=user&act=changepass">
-                    <i class="bi bi-key"></i>
-                    Đổi mật khẩu
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li>
+                      <i class="bi bi-key"></i>
+                      Đổi mật khẩu
+                    </a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
                   <li><a class="dropdown-item" href="#">
-                    <i class="bi bi-trash"></i>
-                    Xoá bộ nhớ đệm
-                  </a></li>
+                      <i class="bi bi-trash"></i>
+                      Xoá bộ nhớ đệm
+                    </a></li>
                 </ul>
               </div>
 
               <div class="dropdown px-3">
                 <a class="dropdown-toggle header__handle--setting" href="#" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <i class="bi bi-bell-fill"></i>
+                  <span class="bg-danger"><? echo $cnt ?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end mt-3">
                   <li class="text-center"><span>
-                    Thông báo
-                  </span></li>
-                  <li><hr class="dropdown-divider"></li>
+                      Thông báo
+                    </span></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item main-notify" href="#">
+                      Chính <span class="text-danger">(<? echo $cnt ?>)</span>
+                    </a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
                   <li><a class="dropdown-item" href="#">
-                    Chính
-                  </a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">
-                    Đăng kí nhận tin nhắn
-                  </a></li>
+                      Đăng kí nhận tin nhắn
+                    </a></li>
                 </ul>
               </div>
 
@@ -146,5 +216,3 @@
               </a>
             </div>
           </header>
-          
-

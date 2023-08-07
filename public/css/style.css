@@ -2637,3 +2637,19 @@ body {
   font-size: 18px;
   text-decoration: none;
 }
+
+.header__more--notify-link {
+  position: relative;
+}
+
+.header__more--notify-count {
+  position: absolute;
+  top: -3px;
+  right: -8px;
+  font-size: 14px;
+  background-color: red;
+  padding: 0 4px;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 500;
+}

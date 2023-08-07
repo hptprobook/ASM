@@ -25,7 +25,11 @@
 
   var channel = pusher.subscribe('my-channel');
   channel.bind('my-event', function(data) {
-    alert(JSON.stringify(data));
+    document.querySelector('.new--notification-overlay').classList.add('active');
+  });
+
+  channel.bind('cancel_order', function(data) {
+    document.querySelector('.cancel__notification--overlay').classList.add('active');
   });
 </script>
 

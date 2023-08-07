@@ -1,9 +1,6 @@
 <?
 
-$order_list = $admin->get_list('SELECT * FROM user_cart_comp WHERE `status` = -1 OR `status` = 0 OR `status` = 1');
-if (isset($_GET['notify_id'])) {
-  $admin->update('admin_notify', array('status' => 1), 'id = "' . $_GET['notify_id'] . '"');
-}
+$order_list = $admin->get_list('SELECT * FROM user_cart_comp WHERE `status` = 2 OR `status` = 3 OR `status` = 4');
 
 ?>
 
@@ -12,7 +9,7 @@ if (isset($_GET['notify_id'])) {
 <? getHeader(); ?>
 
 <section>
-  <h2 class="text-center pt-5">Danh sách đặt hàng</h2>
+  <h2 class="text-center pt-5">Danh sách đơn hàng</h2>
 
   <form action="?mod=order&act=remove_multi" method="post" class="container">
     <table class="table table-striped table-bordered">
@@ -42,28 +39,15 @@ if (isset($_GET['notify_id'])) {
             <td><? echo $item['ship_date'] ?></td>
             <td><? echo $item['note'] ?></td>
             <td>
-              <?if ($item['status'] == -1) {
-                echo '<div class="text-warning">Chưa xác nhận</div>';
-              } elseif ($item['status'] == 0) {
-                echo '<div class="text-success">Đã xác nhận</div>';
-              } elseif ($item['status'] == 1) {
-                echo '<div class="text-info">Đang giao</div>';
+              <?if ($item['status'] == 2) {
+                echo '<div class="text-success">Đã nhận</div>';
+              } elseif ($item['status'] == 3) {
+                echo '<div class="text-dander">KH đã hủy</div>';
+              } elseif ($item['status'] == 4) {
+                echo '<div class="text-danger">Admin đã hủy</div>';
               } else echo ''; ?>
             </td>
             <td>
-              <? if ($item['status'] != 3) { ?>
-                <?
-                if ($item['status'] == -1) { ?>
-                  <a class="btn mt-2 btn-success" href="?mod=order&act=confirm&id=<? echo $item['id'] ?>" title="Xác nhận đơn hàng"><i class="bi bi-check"></i></a>
-                <? } ?>
-                <?
-                if ($item['status'] == 0) { ?>
-                  <a class="btn mt-2 btn-primary" href="?mod=order&act=ship_confirm&id=<? echo $item['id'] ?>" title="Xác nhận giao hàng"><i class="bi bi-rocket"></i></a>
-                <? } ?>
-
-                <a class="btn mt-2 btn-warning" href="?mod=order&act=cancel&id=<? echo $item['id'] ?>" title="Huỷ đơn hàng này"><i class="bi bi-exclamation-lg"></i></a>
-
-              <? } ?>
               <a class="btn mt-2 btn-danger" href="?mod=order&act=remove&id=<? echo $item['id'] ?>" title="Xoá đơn hàng này"><i class="bi bi-trash3"></i></i></a>
             </td>
           </tr>

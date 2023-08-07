@@ -51,4 +51,20 @@ $(document).ready(function () {
 
     $(".cat__checkall").prop("checked", isAllChecked);
   });
+
+  // Thông báo
+  $('.main-notify').click(function() {
+    $('.notification-overlay').addClass('active');
+  })
+  $('.notification-close').click(function() {
+    $('.notification-overlay').removeClass('active');
+  })
+
+  $('.new--notification-close').click(function() {
+    $('.new--notification-overlay').removeClass('active');
+  });
+
+  $('.cancel--notification-close').click(function() {
+    $('.cancel__notification--overlay').removeClass('active');
+  })
 });

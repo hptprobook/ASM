@@ -52,6 +52,8 @@ try {
 
     $mail->send();
 
+    date_default_timezone_set('Asia/Bangkok');
+
     $options = array(
         'cluster' => 'ap1',
         'useTLS' => true
@@ -63,10 +65,13 @@ try {
         $options
     );
 
-    $data['message'] = 'hello world';
+    $data = array(
+        'subject' => 'Nhận được đơn hàng mới',
+        'content' => 'Có đơn hàng mới từ khách hàng, vào xác nhận ngay!',
+        'time' => date('Y-m-d H:i:s')
+    );
+    $database->insert('admin_notify', $data);
     $pusher->trigger('my-channel', 'my-event', $data);
-
-    $data = array('message' => 'Có đơn hàng mới!'); // Nội dung thông báo
     header('Location: ?mod=user&act=order&is_checked_out=true');
 } catch (Exception $e) {
     echo "<div class='alert alert-error text-center'>Order Failure. Mailer Error: {$mail->ErrorInfo}</div>";

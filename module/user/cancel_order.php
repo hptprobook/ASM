@@ -1,5 +1,6 @@
 <?
 
+require 'vendor/autoload.php';
 $report = $database->get_row('SELECT * FROM report');
 
 if (isset($_POST['cancel-btn'])) {
@@ -14,6 +15,28 @@ if (isset($_POST['cancel-btn'])) {
   if ($database->update('user_cart_comp', $data, 'id = "' . $id . '"')) {
     $database->update('report', array('order_canceled' => $order_canceled + 1), 'id = 1');
     $database->update('report', array('order_processing' => $order_processing - 1), 'id = 1');
+
+    date_default_timezone_set('Asia/Bangkok');
+
+    $options = array(
+        'cluster' => 'ap1',
+        'useTLS' => true
+    );
+    $pusher = new Pusher\Pusher(
+        'ebd4b083a7bb57c525d6',
+        '79eab78080c69e751ef5',
+        '1646892',
+        $options
+    );
+
+    $data = array(
+        'subject' => 'Đơn hàng đã bị hủy',
+        'content' => 'Có đơn hàng bị hủy, vào kiểm tra ngay!',
+        'time' => date('Y-m-d H:i:s')
+    );
+
+    $database->insert('admin_notify', $data);
+    $pusher->trigger('my-channel', 'cancel_order', $data);
     header('Refresh: 0.25; URL= ?mod=user&act=order');
     $is_cancel = true;
   };
