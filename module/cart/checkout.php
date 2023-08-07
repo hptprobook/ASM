@@ -59,9 +59,6 @@ if (isset($_POST['checkout-btn'])) {
 
     }
 
-
-
-
     // header('Location: ?mod=user&act=order&is_checked_out=true');
   }
 
@@ -155,7 +152,7 @@ if (isset($_POST['checkout-btn'])) {
             <p>Total Amount: $<? echo $total_checkout ?></p>
             <button
               type="submit"
-              <? if (empty($user_carts) && !isset($user_carts)) echo 'default' ?> 
+              <? if (empty($user_carts) && !isset($user_carts)) echo 'default' ?>
               name="checkout-btn" class="checkout-btn float-end" id="checkout-final-btn">CHECK OUT</button>
           </div>
 
