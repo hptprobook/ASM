@@ -63,7 +63,6 @@ if (isset($_POST['search_product-btn'])) {
     <a href="?mod=up_product&act=remove_all" class="btn btn-danger my-2">Xoá tất cả</a>
   </form>
 
-
 </section>
 
 
